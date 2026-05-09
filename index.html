@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f0e17">
+<link rel="manifest" href="manifest.json">
+<title>Practice Timer</title>
+<style>
+  :root {
+    --bg: #0f0e17;
+    --card: #1a1928;
+    --text: #e0e0e0;
+    --muted: #888;
+    --green: #00d4aa;
+    --red: #ff6b6b;
+    --orange: #ffb347;
+    --accent: #6c5ce7;
+    --radius: 16px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 20px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* ── Header ── */
+  .header {
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .header h1 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+  }
+  .header .subtitle {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* ── Balance Card ── */
+  .balance-card {
+    width: 100%;
+    max-width: 400px;
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 24px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .balance-amount {
+    font-size: 2.2rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    transition: color 0.3s;
+  }
+  .balance-amount.positive { color: var(--green); }
+  .balance-amount.negative { color: var(--red); }
+  .balance-detail {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+
+  /* ── Timer ── */
+  .timer-section {
+    width: 100%;
+    max-width: 400px;
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 32px 24px;
+    text-align: center;
+    margin-bottom: 24px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .timer-display {
+    font-size: 4rem;
+    font-weight: 200;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 4px;
+    margin-bottom: 16px;
+    font-family: 'SF Mono', 'Menlo', monospace;
+  }
+  .timer-status {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 24px;
+    height: 20px;
+  }
+
+  /* ── Buttons ── */
+  .btn-row {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+  }
+  .btn {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: transform 0.15s, background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .btn:active { transform: scale(0.92); }
+  .btn-play { background: rgba(0,212,170,0.15); color: var(--green); }
+  .btn-pause { background: rgba(255,179,71,0.15); color: var(--orange); }
+  .btn-stop { background: rgba(255,107,107,0.15); color: var(--red); }
+  .btn-sm {
+    width: auto;
+    height: 40px;
+    border-radius: 20px;
+    padding: 0 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  /* ── Today Bar ── */
+  .today-bar {
+    width: 100%;
+    max-width: 400px;
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .today-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .today-label { font-size: 0.85rem; font-weight: 600; }
+  .today-value { font-size: 0.85rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .progress-track {
+    width: 100%;
+    height: 6px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.5s ease, background 0.3s;
+    background: var(--green);
+  }
+  .progress-fill.over { background: var(--orange); }
+  .today-message {
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  /* ── History ── */
+  .history-section {
+    width: 100%;
+    max-width: 400px;
+    flex: 1;
+  }
+  .history-section h2 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .clear-btn {
+    font-size: 0.75rem;
+    color: var(--red);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 8px;
+  }
+  .clear-btn:active { background: rgba(255,107,107,0.15); }
+
+  .history-list { list-style: none; }
+  .history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--card);
+    border-radius: 12px;
+    margin-bottom: 8px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .history-left .h-date { font-size: 0.85rem; font-weight: 500; }
+  .history-left .h-mins { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+  .history-right {
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+  .history-right.pos { background: rgba(0,212,170,0.15); color: var(--green); }
+  .history-right.neg { background: rgba(255,107,107,0.12); color: var(--red); }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  .empty-state .icon { font-size: 2.5rem; margin-bottom: 12px; }
+
+  /* ── Goal setting (inline) ── */
+  .goal-setter {
+    width: 100%;
+    max-width: 400px;
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .goal-setter label { font-size: 0.85rem; color: var(--muted); flex-shrink: 0; }
+  .goal-setter input {
+    flex: 1;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 1rem;
+    font-variant-numeric: tabular-nums;
+    padding: 8px 12px;
+    text-align: right;
+    width: 70px;
+    outline: none;
+  }
+  .goal-setter input:focus { border-color: var(--accent); }
+  .goal-setter .unit { font-size: 0.8rem; color: var(--muted); flex-shrink: 0; }
+  .goal-saved { font-size: 0.7rem; color: var(--green); opacity: 0; transition: opacity 0.3s; }
+  .goal-saved.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <h1>🎹 Practice Timer</h1>
+  <div class="subtitle" id="todayDate"></div>
+</div>
+
+<!-- Obiettivo giornaliero -->
+<div class="goal-setter">
+  <label>Obiettivo</label>
+  <input type="number" id="goalInput" min="1" max="1440" value="60">
+  <span class="unit">min / giorno</span>
+  <span class="goal-saved" id="goalSaved">✓ salvato</span>
+</div>
+
+<!-- Bilancio cumulativo -->
+<div class="balance-card">
+  <div class="balance-amount" id="balanceDisplay">0 min</div>
+  <div class="balance-detail" id="balanceDetail">In pari</div>
+</div>
+
+<!-- Cronometro -->
+<div class="timer-section">
+  <div class="timer-display" id="timerDisplay">00:00</div>
+  <div class="timer-status" id="timerStatus">Tocca ▶ per iniziare</div>
+  <div class="btn-row" id="controls">
+    <button class="btn btn-play" id="btnStart" onclick="startTimer()">▶</button>
+  </div>
+</div>
+
+<!-- Sessione di oggi -->
+<div class="today-bar">
+  <div class="today-header">
+    <span class="today-label">Oggi</span>
+    <span class="today-value" id="todayTotal">0 min</span>
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+  </div>
+  <div class="today-message" id="todayMessage">Nessuna sessione oggi</div>
+</div>
+
+<!-- Storico -->
+<div class="history-section">
+  <h2>
+    Storico
+    <button class="clear-btn" onclick="clearAll()" id="clearBtn">Cancella tutto</button>
+  </h2>
+  <ul class="history-list" id="historyList"></ul>
+  <div class="empty-state" id="emptyState">
+    <div class="icon">🎵</div>
+    Inizia a suonare!<br>Registra la tua prima sessione.
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════
+//  DATA
+// ════════════════════════════════════════
+
+const STORAGE_RECORDS = "piano_records";
+const STORAGE_GOAL    = "piano_goal";
+
+let dailyGoal    = loadGoal();
+let records      = loadRecords();
+let running      = false;
+let paused       = false;
+let startTime    = 0;    // ms epoch when session started
+let pausedElapsed = 0;   // ms accumulated before pause
+let tickInterval = null;
+
+// ════════════════════════════════════════
+//  PERSISTENCE
+// ════════════════════════════════════════
+
+function loadRecords() {
+  try {
+    const raw = localStorage.getItem(STORAGE_RECORDS);
+    return raw ? JSON.parse(raw) : [];
+  } catch { return []; }
+}
+
+function saveRecords() {
+  localStorage.setItem(STORAGE_RECORDS, JSON.stringify(records));
+}
+
+function loadGoal() {
+  const v = parseFloat(localStorage.getItem(STORAGE_GOAL));
+  return (v && v > 0 && v <= 1440) ? v : 60;
+}
+
+function saveGoal() {
+  localStorage.setItem(STORAGE_GOAL, String(dailyGoal));
+}
+
+// ════════════════════════════════════════
+//  UTILS
+// ════════════════════════════════════════
+
+function todayStr() {
+  return new Date().toISOString().slice(0, 10); // "2026-05-09"
+}
+
+function formatMs(ms) {
+  const s = Math.floor(ms / 1000);
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return String(m).padStart(2, '0') + ':' + String(sec).padStart(2, '0');
+}
+
+function formatDate(iso) {
+  const d = new Date(iso + 'T12:00:00');
+  return d.toLocaleDateString('it-IT', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+function getTodayTotal() {
+  return records.filter(r => r.date === todayStr()).reduce((s, r) => s + r.minutes, 0);
+}
+
+// ════════════════════════════════════════
+//  BALANCE
+// ════════════════════════════════════════
+
+function recalcBalance() {
+  const totalMinutes = records.reduce((s, r) => s + r.minutes, 0);
+  const days = new Set(records.map(r => r.date)).size;
+  const totalGoal = Math.max(days, 1) * dailyGoal;
+  const bal = totalMinutes - totalGoal;
+
+  const el = document.getElementById('balanceDisplay');
+  const sign = bal >= 0 ? '+' : '';
+  el.textContent = sign + Math.round(bal) + ' min';
+  el.className = 'balance-amount ' + (bal >= 0 ? 'positive' : 'negative');
+
+  const detail = document.getElementById('balanceDetail');
+  if (records.length === 0) {
+    detail.textContent = 'Nessuna sessione';
+  } else {
+    detail.textContent = `Totale: ${Math.round(totalMinutes)} min · Obiettivo: ${Math.round(totalGoal)} min (${days} ${days === 1 ? 'giorno' : 'giorni'})`;
+  }
+}
+
+// ════════════════════════════════════════
+//  TODAY BAR
+// ════════════════════════════════════════
+
+function recalcToday() {
+  const tot = getTodayTotal();
+  const goal = dailyGoal;
+  const pct = Math.min(100, (tot / goal) * 100);
+
+  document.getElementById('todayTotal').textContent = Math.round(tot) + ' min';
+
+  const fill = document.getElementById('progressFill');
+  fill.style.width = pct + '%';
+  fill.className = 'progress-fill' + (pct >= 100 ? ' over' : '');
+
+  const msg = document.getElementById('todayMessage');
+  if (tot >= goal) {
+    msg.textContent = '🎯 Obiettivo raggiunto!';
+    msg.style.color = 'var(--green)';
+  } else if (tot > 0) {
+    msg.textContent = 'Mancano ' + Math.round(goal - tot) + ' min';
+    msg.style.color = 'var(--orange)';
+  } else {
+    msg.textContent = 'Nessuna sessione oggi';
+    msg.style.color = 'var(--muted)';
+  }
+}
+
+// ════════════════════════════════════════
+//  HISTORY RENDER
+// ════════════════════════════════════════
+
+function renderHistory() {
+  const list = document.getElementById('historyList');
+  const empty = document.getElementById('emptyState');
+
+  // Solo i dati di sessioni già salvate (non quella corrente)
+  const sorted = [...records].sort((a, b) => b.date.localeCompare(a.date));
+
+  if (sorted.length === 0) {
+    list.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+
+  empty.style.display = 'none';
+  list.innerHTML = '';
+
+  // Raggruppa per data
+  const byDate = {};
+  sorted.forEach(r => {
+    if (!byDate[r.date]) byDate[r.date] = 0;
+    byDate[r.date] += r.minutes;
+  });
+
+  // Trova il goal per ogni data (usa il goal originale se disponibile, altrimenti quello attuale)
+  const goalByDate = {};
+  sorted.forEach(r => {
+    if (!goalByDate[r.date]) goalByDate[r.date] = r.goal || dailyGoal;
+  });
+
+  Object.entries(byDate).forEach(([date, minutes]) => {
+    const goal = goalByDate[date] || dailyGoal;
+    const bal = minutes - goal;
+    const sign = bal >= 0 ? '+' : '';
+    const cls = bal >= 0 ? 'pos' : 'neg';
+
+    const li = document.createElement('li');
+    li.className = 'history-item';
+    li.innerHTML = `
+      <div class="history-left">
+        <div class="h-date">${formatDate(date)}</div>
+        <div class="h-mins">${Math.round(minutes)} min</div>
+      </div>
+      <div class="history-right ${cls}">${sign}${Math.round(bal)} min</div>
+    `;
+    list.appendChild(li);
+  });
+
+  renderClearBtn();
+}
+
+function renderClearBtn() {
+  const btn = document.getElementById('clearBtn');
+  btn.style.display = records.length > 0 ? '' : 'none';
+}
+
+// ════════════════════════════════════════
+//  CRONOMETRO
+// ════════════════════════════════════════
+
+function startTimer() {
+  if (running) return;
+  running = true;
+  paused = false;
+  startTime = Date.now();
+  pausedElapsed = 0;
+
+  updateControls();
+  tick();
+  tickInterval = setInterval(tick, 500);
+}
+
+function pauseTimer() {
+  if (!running) return;
+  pausedElapsed = Date.now() - startTime;
+  running = false;
+  paused = true;
+  clearInterval(tickInterval);
+  tickInterval = null;
+
+  updateControls();
+}
+
+function resumeTimer() {
+  if (!paused) return;
+  running = true;
+  paused = false;
+  startTime = Date.now();
+  // pausedElapsed rimane com'è
+
+  updateControls();
+  tick();
+  tickInterval = setInterval(tick, 500);
+}
+
+function stopTimer() {
+  clearInterval(tickInterval);
+  tickInterval = null;
+
+  let elapsed;
+  if (running) {
+    elapsed = Date.now() - startTime;
+  } else if (paused) {
+    elapsed = pausedElapsed;
+  } else {
+    resetTimer();
+    return;
+  }
+
+  const mins = Math.round((elapsed / 60000) * 10) / 10;
+
+  if (mins > 0.5) {
+    // Se esiste già un record per oggi, somma
+    const idx = records.findIndex(r => r.date === todayStr());
+    if (idx >= 0) {
+      records[idx].minutes += mins;
+    } else {
+      records.push({ date: todayStr(), minutes: mins, goal: dailyGoal });
+    }
+    saveRecords();
+  }
+
+  resetTimer();
+  recalcToday();
+  recalcBalance();
+  renderHistory();
+}
+
+function resetTimer() {
+  running = false;
+  paused = false;
+  startTime = 0;
+  pausedElapsed = 0;
+  document.getElementById('timerDisplay').textContent = '00:00';
+  document.getElementById('timerStatus').textContent = 'Tocca ▶ per iniziare';
+  updateControls();
+}
+
+function updateControls() {
+  const startBtn = document.getElementById('btnStart');
+  if (running) {
+    startBtn.className = 'btn btn-pause';
+    startBtn.textContent = '⏸';
+    startBtn.onclick = pauseTimer;
+    document.getElementById('timerStatus').textContent = '▶ In esecuzione';
+  } else if (paused) {
+    startBtn.className = 'btn btn-play';
+    startBtn.textContent = '▶';
+    startBtn.onclick = resumeTimer;
+    document.getElementById('timerStatus').textContent = '⏸ In pausa';
+  } else {
+    startBtn.className = 'btn btn-play';
+    startBtn.textContent = '▶';
+    startBtn.onclick = startTimer;
+    document.getElementById('timerStatus').textContent = 'Tocca ▶ per iniziare';
+  }
+
+  // Pulsante Stop visibile solo quando attivo
+  let stopBtn = document.getElementById('btnStop');
+  if (!stopBtn) {
+    stopBtn = document.createElement('button');
+    stopBtn.id = 'btnStop';
+    stopBtn.className = 'btn btn-stop';
+    stopBtn.textContent = '⏹';
+    stopBtn.onclick = stopTimer;
+    document.getElementById('controls').appendChild(stopBtn);
+  }
+  stopBtn.style.display = (running || paused) ? '' : 'none';
+}
+
+function tick() {
+  if (!running) return;
+  const elapsed = Date.now() - startTime;
+  document.getElementById('timerDisplay').textContent = formatMs(elapsed);
+}
+
+// ════════════════════════════════════════
+//  CLEAR ALL
+// ════════════════════════════════════════
+
+function clearAll() {
+  if (!confirm('Cancellare tutti i dati?')) return;
+  records = [];
+  saveRecords();
+  resetTimer();
+  recalcToday();
+  recalcBalance();
+  renderHistory();
+}
+
+// ════════════════════════════════════════
+//  GOAL INPUT
+// ════════════════════════════════════════
+
+const goalInput = document.getElementById('goalInput');
+let goalTimeout;
+
+goalInput.addEventListener('change', () => {
+  const v = parseFloat(goalInput.value);
+  if (v && v > 0 && v <= 1440) {
+    dailyGoal = v;
+    saveGoal();
+    const el = document.getElementById('goalSaved');
+    el.classList.add('show');
+    clearTimeout(goalTimeout);
+    goalTimeout = setTimeout(() => el.classList.remove('show'), 1500);
+    recalcToday();
+    recalcBalance();
+    renderHistory();
+  }
+});
+
+// ════════════════════════════════════════
+//  AUTO-START ON LOAD
+// ════════════════════════════════════════
+
+function init() {
+  document.getElementById('todayDate').textContent =
+    new Date().toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+
+  goalInput.value = dailyGoal;
+  recalcToday();
+  recalcBalance();
+  renderHistory();
+
+  // Avvia il cronometro automaticamente
+  startTimer();
+
+  // Salva stato quando l'utente esce dalla pagina
+  window.addEventListener('beforeunload', () => {
+    // Salva il tempo della sessione corrente come record se > 0.5 min
+    let elapsed = 0;
+    if (running) {
+      elapsed = Date.now() - startTime;
+    } else if (paused) {
+      elapsed = pausedElapsed;
+    }
+    const mins = Math.round((elapsed / 60000) * 10) / 10;
+    if (mins > 0.5) {
+      const idx = records.findIndex(r => r.date === todayStr());
+      if (idx >= 0) {
+        records[idx].minutes += mins;
+      } else {
+        records.push({ date: todayStr(), minutes: mins, goal: dailyGoal });
+      }
+      saveRecords();
+    }
+  });
+
+  // Gestione Service Worker per PWA offline
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  }
+
+  // Sync iCloud se disponibile
+  syncWithCloud();
+}
+
+// ════════════════════════════════════════
+//  ICLOUD SYNC (WebDAV via Shortcut)
+// ════════════════════════════════════════
+
+function syncWithCloud() {
+  // Placeholder per eventuale sync futuro
+  // Puoi configurare un'Azione Rapida (Shortcuts) 
+  // che legge/scrive da iCloud Drive
+}
+
+init();
+</script>
+</body>
+</html>
