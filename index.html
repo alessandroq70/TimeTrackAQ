@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#1a1a2e">
+<title>TimeTrackAQ</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231a1a2e'/><text x='50' y='65' font-size='50' text-anchor='middle' fill='%234ade80'>⏱</text></svg>">
+<style>
+  :root {
+    --bg: #1a1a2e;
+    --surface: #252545;
+    --surface2: #2d2d55;
+    --card: #333366;
+    --accent: #4ade80;
+    --accent-red: #f87171;
+    --accent-orange: #fb923c;
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --border: #475569;
+    --radius: 16px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* App Container */
+  .app {
+    max-width: 480px;
+    margin: 0 auto;
+    padding-bottom: 80px;
+    min-height: 100vh;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 24px 20px 8px;
+  }
+  .header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+  .header .subtitle {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+
+  /* Tab Navigation */
+  .tabs {
+    display: flex;
+    background: var(--surface);
+    border-radius: var(--radius);
+    margin: 12px 16px;
+    padding: 4px;
+    border: 1px solid var(--border);
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 10px 0;
+    text-align: center;
+    border: none;
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .tab-btn.active {
+    background: var(--accent);
+    color: #000;
+  }
+  .tab-btn:hover:not(.active) {
+    background: var(--surface2);
+    color: var(--text);
+  }
+
+  /* Panels */
+  .panel { display: none; padding: 0 16px; }
+  .panel.active { display: block; }
+
+  /* Cards */
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
+  }
+
+  /* Balance Card */
+  .balance-card {
+    text-align: center;
+    margin-top: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .balance-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 50% 50%, rgba(74,222,128,0.05) 0%, transparent 70%);
+  }
+  .balance-value {
+    font-size: 2.8rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -2px;
+  }
+  .balance-value.green { color: var(--accent); }
+  .balance-value.red { color: var(--accent-red); }
+  .balance-detail {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-top: 6px;
+  }
+
+  /* Timer Display */
+  .timer-display {
+    text-align: center;
+    padding: 32px 0;
+  }
+  .timer-value {
+    font-size: 5rem;
+    font-weight: 200;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 4px;
+    font-family: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+  }
+  .timer-status {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    margin-top: 8px;
+  }
+  .timer-status.running { color: var(--accent); }
+  .timer-status.paused { color: var(--accent-orange); }
+
+  /* Today Summary */
+  .today-summary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: var(--surface);
+    border-radius: 12px;
+    margin-bottom: 8px;
+  }
+  .today-summary .icon { font-size: 1.2rem; }
+  .today-summary .today-text {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  .today-summary .today-sub {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+  }
+  .today-summary .today-sub.orange { color: var(--accent-orange); }
+  .today-summary .today-sub.green { color: var(--accent); }
+
+  /* Manual Entry Panel */
+  .manual-panel {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
+    text-align: center;
+  }
+  .manual-panel h3 {
+    font-size: 0.95rem;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  .manual-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+  .manual-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: none;
+    font-size: 1.6rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s, background 0.2s;
+  }
+  .manual-btn:hover { transform: scale(1.1); }
+  .manual-btn:active { transform: scale(0.95); }
+  .manual-btn.plus {
+    background: var(--accent);
+    color: #000;
+  }
+  .manual-btn.minus {
+    background: var(--accent-red);
+    color: #fff;
+  }
+  .manual-input {
+    width: 90px;
+    padding: 10px;
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    background: var(--bg);
+    color: var(--text);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    outline: none;
+    font-family: inherit;
+  }
+  .manual-input:focus { border-color: var(--accent); }
+  .manual-unit {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+  .manual-submit {
+    margin-top: 8px;
+    padding: 8px 20px;
+    background: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .manual-submit:hover { opacity: 0.85; }
+  .manual-submit:disabled { opacity: 0.4; cursor: default; }
+
+  /* Control Buttons */
+  .controls {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 8px;
+  }
+  .ctrl-btn {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s;
+  }
+  .ctrl-btn:hover { transform: scale(1.1); }
+  .ctrl-btn:active { transform: scale(0.95); }
+  .ctrl-btn.start { background: var(--accent); color: #000; }
+  .ctrl-btn.pause { background: var(--accent-orange); color: #000; }
+  .ctrl-btn.stop { background: var(--accent-red); color: #fff; }
+
+  /* History List */
+  .history-list {
+    list-style: none;
+  }
+  .history-item {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    background: var(--card);
+    border-radius: var(--radius);
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+    border: 1px solid var(--border);
+    position: relative;
+  }
+  .history-item:hover { background: var(--surface2); }
+  .history-item .date {
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+  .history-item .detail {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+  .history-item .balance-badge {
+    margin-left: auto;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .balance-badge.positive {
+    background: rgba(74,222,128,0.15);
+    color: var(--accent);
+  }
+  .balance-badge.negative {
+    background: rgba(248,113,113,0.15);
+    color: var(--accent-red);
+  }
+  .delete-btn {
+    position: absolute;
+    right: 12px;
+    bottom: 8px;
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    font-size: 0.75rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .history-item:hover .delete-btn { opacity: 1; }
+  .delete-btn:hover { color: var(--accent-red); }
+
+  /* Modal */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 24px;
+    width: 100%;
+    max-width: 360px;
+    border: 1px solid var(--border);
+  }
+  .modal h3 {
+    font-size: 1.1rem;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  .modal .field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    justify-content: center;
+  }
+  .modal .field input {
+    width: 80px;
+    padding: 8px;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    background: var(--bg);
+    color: var(--text);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    outline: none;
+    font-family: inherit;
+  }
+  .modal .field input:focus { border-color: var(--accent); }
+  .modal .field label { color: var(--text-dim); font-size: 0.9rem; }
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 8px;
+  }
+  .modal-actions button {
+    padding: 8px 20px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: opacity 0.2s;
+  }
+  .modal-actions button:hover { opacity: 0.85; }
+  .modal-actions .save { background: var(--accent); color: #000; }
+  .modal-actions .cancel { background: var(--surface2); color: var(--text); }
+
+  /* Settings */
+  .settings-field {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .settings-field label { min-width: 140px; font-size: 0.9rem; }
+  .settings-field input {
+    flex: 1;
+    padding: 10px;
+    background: var(--bg);
+    color: var(--text);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    outline: none;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+  }
+  .settings-field input:focus { border-color: var(--accent); }
+  .settings-field span { color: var(--text-dim); font-size: 0.85rem; }
+  .save-goal-btn {
+    padding: 8px 20px;
+    background: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: opacity 0.2s;
+  }
+  .save-goal-btn:hover { opacity: 0.85; }
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+  }
+  .stat-row:last-child { border: none; }
+  .stat-row .label { color: var(--text-dim); }
+  .stat-row .value { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  .reset-btn {
+    margin-top: 16px;
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    color: var(--accent-red);
+    border: 2px solid var(--accent-red);
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .reset-btn:hover { background: rgba(248,113,113,0.15); }
+
+  /* Empty State */
+  .empty-state {
+    text-align: center;
+    padding: 48px 20px;
+    color: var(--text-dim);
+  }
+  .empty-state .emoji { font-size: 3rem; margin-bottom: 12px; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- Header -->
+  <div class="header">
+    <h1>⏱ TimeTrackAQ</h1>
+    <div class="subtitle" id="todayDate"></div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('practice')">▶ Pratica</button>
+    <button class="tab-btn" onclick="switchTab('history')">📋 Storico</button>
+    <button class="tab-btn" onclick="switchTab('settings')">⚙️ Impostazioni</button>
+  </div>
+
+  <!-- PANEL: Pratica -->
+  <div class="panel active" id="panel-practice">
+    <div class="card balance-card">
+      <div class="balance-value green" id="balanceText">0 min</div>
+      <div class="balance-detail" id="balanceDetail">Nessuna sessione</div>
+    </div>
+
+    <div class="card" id="timerCard">
+      <div class="timer-display">
+        <div class="timer-value" id="timerDisplay">00:00</div>
+        <div class="timer-status" id="timerStatus">Premi ▶ per iniziare</div>
+      </div>
+    </div>
+
+    <!-- Manual Entry (quando timer fermo) -->
+    <div class="manual-panel" id="manualPanel">
+      <h3>📝 Aggiungi minuti manualmente</h3>
+      <div class="manual-controls">
+        <button class="manual-btn minus" onclick="manualQuick(-15)" title="Rimuovi ultima sessione">−</button>
+        <input type="number" class="manual-input" id="manualMinutes" value="15" min="1" max="1440" placeholder="Min">
+        <button class="manual-btn plus" onclick="manualQuick(15)" title="Aggiungi 15 min">+</button>
+      </div>
+      <div class="manual-unit">minuti</div>
+      <button class="manual-submit" id="manualSubmit" onclick="submitManual()" disabled>Aggiungi 15 min</button>
+    </div>
+
+    <!-- Today Summary -->
+    <div class="today-summary" id="todaySummary">
+      <span class="icon">📅</span>
+      <div>
+        <div class="today-text" id="todayText">Oggi: 0 min</div>
+        <div class="today-sub" id="todaySub"></div>
+      </div>
+    </div>
+
+    <!-- Control Buttons -->
+    <div class="controls">
+      <button class="ctrl-btn start" id="btnStart" onclick="startTimer()" style="display:none;">▶</button>
+      <button class="ctrl-btn pause" id="btnPause" onclick="togglePause()" style="display:none;">⏸</button>
+      <button class="ctrl-btn stop" id="btnStop" onclick="stopSession()" style="display:none;">⏹</button>
+    </div>
+  </div>
+
+  <!-- PANEL: Storico -->
+  <div class="panel" id="panel-history">
+    <ul class="history-list" id="historyList"></ul>
+    <div class="empty-state" id="historyEmpty">
+      <div class="emoji">🕐</div>
+      <p>Nessuna sessione registrata</p>
+      <p style="font-size:0.8rem; margin-top:8px;">Inizia la pratica per registrare il tempo</p>
+    </div>
+  </div>
+
+  <!-- PANEL: Impostazioni -->
+  <div class="panel" id="panel-settings">
+    <div class="card">
+      <h3 style="margin-bottom:16px; font-size:1rem;">Obiettivo giornaliero</h3>
+      <div class="settings-field">
+        <label>Minuti/giorno</label>
+        <input type="number" id="goalInput" min="1" max="1440" placeholder="60">
+        <span>min</span>
+        <button class="save-goal-btn" onclick="saveGoal()">Salva</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-bottom:12px; font-size:1rem;">📊 Statistiche</h3>
+      <div class="stat-row"><span class="label">Sessioni totali</span><span class="value" id="statSessions">0</span></div>
+      <div class="stat-row"><span class="label">Minuti totali</span><span class="value" id="statTotal">0 min</span></div>
+      <div class="stat-row"><span class="label">Media sessione</span><span class="value" id="statAvg">0 min</span></div>
+      <div class="stat-row"><span class="label">Obiettivo raggiunto</span><span class="value" id="statHit">0 / 0</span></div>
+      <div class="stat-row"><span class="label">Bilancio cumulativo</span><span class="value" id="statBalance">0 min</span></div>
+      <div class="stat-row"><span class="label">Ultimi 7 giorni</span><span class="value" id="statWeek">0 min</span></div>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <h3 style="margin-bottom:12px; font-size:1rem;">Ultimi 20 giorni</h3>
+      <div id="recentDays"></div>
+    </div>
+
+    <button class="reset-btn" onclick="resetAll()">🗑 Cancella tutti i dati</button>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <h3>✏️ Modifica sessione</h3>
+    <div class="field">
+      <label>Data:</label>
+      <span id="editDate"></span>
+    </div>
+    <div class="field">
+      <label>Minuti:</label>
+      <input type="number" id="editMinutes" min="1" max="1440" placeholder="Min">
+    </div>
+    <div class="modal-actions">
+      <button class="cancel" onclick="closeEdit()">Annulla</button>
+      <button class="save" onclick="saveEdit()">Salva</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ==================== STORE ====================
+const STORAGE_KEY = 'timetrack_records';
+const GOAL_KEY = 'timetrack_dailyGoal';
+
+function loadRecords() {
+  try {
+    const data = localStorage.getItem(STORAGE_KEY);
+    return data ? JSON.parse(data) : [];
+  } catch { return []; }
+}
+
+function saveRecords(records) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+}
+
+function loadGoal() {
+  const g = localStorage.getItem(GOAL_KEY);
+  return g ? parseFloat(g) : 60;
+}
+
+function saveGoalVal(v) {
+  localStorage.setItem(GOAL_KEY, v);
+}
+
+// ==================== STATE ====================
+let records = loadRecords();
+let dailyGoal = loadGoal();
+let isRunning = false;
+let sessionStart = null;
+let pausedMs = 0;
+let timerInterval = null;
+let currentMs = 0;
+let editingId = null;
+
+// ==================== HELPERS ====================
+function fmtDate(d) {
+  return new Date(d).toLocaleDateString('it-IT', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+function fmtDateFull(d) {
+  return new Date(d).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+function fmtTime(ms) {
+  const totalSec = Math.floor(ms / 1000);
+  const m = Math.floor(totalSec / 60);
+  const s = totalSec % 60;
+  return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+}
+
+function today() {
+  const d = new Date();
+  d.setHours(0,0,0,0);
+  return d.getTime();
+}
+
+function isToday(ts) {
+  const d = new Date(ts);
+  d.setHours(0,0,0,0);
+  return d.getTime() === today();
+}
+
+function startOfDay(ts) {
+  const d = new Date(ts);
+  d.setHours(0,0,0,0);
+  return d;
+}
+
+function dayKey(ts) {
+  return startOfDay(ts).getTime();
+}
+
+function getTodayMinutes() {
+  return records.filter(r => isToday(r.date)).reduce((s, r) => s + r.minutes, 0);
+}
+
+function getCumulativeBalance() {
+  const todayRecs = records.filter(r => isToday(r.date));
+  const todayTotal = todayRecs.reduce((s, r) => s + r.minutes, 0);
+  return todayTotal - dailyGoal;
+}
+
+function getRecordsByDay() {
+  const map = {};
+  records.forEach(r => {
+    const k = dayKey(r.date);
+    if (!map[k]) map[k] = { date: startOfDay(r.date).getTime(), minutes: 0, goal: r.goal };
+    map[k].minutes += r.minutes;
+  });
+  return Object.values(map).sort((a, b) => b.date - a.date);
+}
+
+function updateStats() {
+  const n = records.length;
+  const total = records.reduce((s, r) => s + r.minutes, 0);
+  const avg = n > 0 ? (total / n) : 0;
+  const met = records.filter(r => r.minutes >= r.goal).length;
+  const bal = getCumulativeBalance();
+  const weekStart = Date.now() - 7 * 86400000;
+  const weekTotal = records.filter(r => r.date >= weekStart).reduce((s, r) => s + r.minutes, 0);
+
+  document.getElementById('statSessions').textContent = n;
+  document.getElementById('statTotal').textContent = Math.round(total) + ' min';
+  document.getElementById('statAvg').textContent = Math.round(avg) + ' min';
+  document.getElementById('statHit').textContent = met + ' / ' + n;
+  document.getElementById('statBalance').textContent = (bal >= 0 ? '+' : '') + Math.round(bal) + ' min';
+  document.getElementById('statWeek').textContent = Math.round(weekTotal) + ' min';
+
+  // Recent days
+  const rd = document.getElementById('recentDays');
+  const days = getRecordsByDay().slice(0, 20);
+  if (days.length === 0) {
+    rd.innerHTML = '<p style="color:var(--text-dim);font-size:0.85rem;">Nessuna sessione</p>';
+  } else {
+    rd.innerHTML = days.map(d => {
+      const bal = d.minutes - d.goal;
+      const cls = bal >= 0 ? 'positive' : 'negative';
+      const sign = bal >= 0 ? '+' : '';
+      return `<div class="stat-row">
+        <span class="label">${fmtDate(d.date)}</span>
+        <span class="value">${Math.round(d.minutes)} min / ${Math.round(d.goal)} min · <span style="color:${bal >= 0 ? 'var(--accent)' : 'var(--accent-red)'}">${sign}${Math.round(bal)}</span></span>
+      </div>`;
+    }).join('');
+  }
+}
+
+// ==================== TABS ====================
+function switchTab(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  event.target.classList.add('active');
+  if (name === 'history') renderHistory();
+  if (name === 'settings') updateStats();
+}
+
+// ==================== TIMER ====================
+function tick() {
+  if (!sessionStart) return;
+  currentMs = Date.now() - sessionStart + pausedMs;
+  document.getElementById('timerDisplay').textContent = fmtTime(currentMs);
+}
+
+function startTimer() {
+  isRunning = true;
+  if (!sessionStart) sessionStart = Date.now();
+  pausedMs = 0;
+  timerInterval = setInterval(tick, 200);
+  updateControls();
+}
+
+function togglePause() {
+  if (isRunning) {
+    // Pause
+    pausedMs = Date.now() - sessionStart;
+    clearInterval(timerInterval);
+    timerInterval = null;
+    isRunning = false;
+  } else {
+    // Resume
+    sessionStart = Date.now() - pausedMs;
+    timerInterval = setInterval(tick, 200);
+    isRunning = true;
+  }
+  updateControls();
+}
+
+function stopSession() {
+  clearInterval(timerInterval);
+  timerInterval = null;
+
+  if (!sessionStart) { resetUI(); return; }
+
+  const elapsed = pausedMs > 0 ? pausedMs : (Date.now() - sessionStart);
+  const minutes = Math.round((elapsed / 60000) * 10) / 10;
+
+  if (minutes >= 0.5) {
+    records.unshift({
+      id: crypto.randomUUID(),
+      date: Date.now(),
+      minutes: minutes,
+      goal: dailyGoal
+    });
+    saveRecords(records);
+  }
+
+  resetUI();
+}
+
+function resetUI() {
+  isRunning = false;
+  sessionStart = null;
+  pausedMs = 0;
+  currentMs = 0;
+  document.getElementById('timerDisplay').textContent = '00:00';
+  document.getElementById('timerStatus').textContent = 'Premi ▶ per iniziare';
+  document.getElementById('timerStatus').className = 'timer-status';
+  updateControls();
+  updateBalance();
+}
+
+function updateControls() {
+  document.getElementById('btnStart').style.display = isRunning ? 'none' : '';
+  document.getElementById('btnPause').style.display = isRunning ? '' : 'none';
+  document.getElementById('btnStop').style.display = isRunning ? '' : 'none';
+  document.getElementById('timerStatus').textContent =
+    isRunning ? '▶ In esecuzione' : (sessionStart ? '⏸ In pausa' : 'Premi ▶ per iniziare');
+  document.getElementById('timerStatus').className =
+    isRunning ? 'timer-status running' : (sessionStart ? 'timer-status paused' : 'timer-status');
+  document.getElementById('manualPanel').style.display = isRunning ? 'none' : '';
+}
+
+// ==================== BALANCE ====================
+function updateBalance() {
+  const bal = getCumulativeBalance();
+  const el = document.getElementById('balanceText');
+  el.textContent = (bal >= 0 ? '+' : '') + Math.round(bal) + ' min';
+  el.className = 'balance-value ' + (bal >= 0 ? 'green' : 'red');
+
+  const tot = records.reduce((s, r) => s + r.minutes, 0);
+  const days = new Set(records.map(r => dayKey(r.date))).size;
+  const goalTot = Math.max(days, 1) * dailyGoal;
+  const diff = tot - goalTot;
+  document.getElementById('balanceDetail').textContent = diff >= 0
+    ? `Totale: ${Math.round(tot)} min · Cumulativo: ${Math.round(goalTot)} min · +${Math.round(diff)} min`
+    : `Totale: ${Math.round(tot)} min · Cumulativo: ${Math.round(goalTot)} min · Debito: ${Math.round(Math.abs(diff))} min`;
+
+  // Today
+  const todayMins = getTodayMinutes();
+  document.getElementById('todayText').textContent = `Oggi: ${Math.round(todayMins)} min su ${Math.round(dailyGoal)} min`;
+  const sub = document.getElementById('todaySub');
+  if (todayMins === 0) {
+    sub.textContent = '';
+    sub.className = 'today-sub';
+  } else if (todayMins < dailyGoal) {
+    sub.textContent = `Mancano ${Math.round(dailyGoal - todayMins)} min per l'obiettivo`;
+    sub.className = 'today-sub orange';
+  } else {
+    sub.textContent = '🎯 Obiettivo giornaliero raggiunto!';
+    sub.className = 'today-sub green';
+  }
+}
+
+// ==================== MANUAL ====================
+const manualInput = document.getElementById('manualMinutes');
+manualInput.addEventListener('input', () => {
+  const v = parseFloat(manualInput.value);
+  const btn = document.getElementById('manualSubmit');
+  btn.disabled = !(v > 0 && v <= 1440);
+  btn.textContent = v > 0 ? `Aggiungi ${Math.round(v)} min` : 'Aggiungi minuti';
+});
+
+function manualQuick(delta) {
+  const v = parseFloat(manualInput.value) || 0;
+  const nv = Math.max(1, Math.min(1440, v + delta));
+  manualInput.value = nv;
+  manualInput.dispatchEvent(new Event('input'));
+}
+
+function submitManual() {
+  const v = parseFloat(manualInput.value);
+  if (!v || v <= 0 || v > 1440) return;
+  records.unshift({
+    id: crypto.randomUUID(),
+    date: Date.now(),
+    minutes: v,
+    goal: dailyGoal
+  });
+  saveRecords(records);
+  manualInput.value = 15;
+  manualInput.dispatchEvent(new Event('input'));
+  updateBalance();
+}
+
+// ==================== HISTORY ====================
+function renderHistory() {
+  const list = document.getElementById('historyList');
+  const empty = document.getElementById('historyEmpty');
+  if (records.length === 0) {
+    list.innerHTML = '';
+    empty.style.display = '';
+    return;
+  }
+  empty.style.display = 'none';
+  list.innerHTML = records.map(r => {
+    const bal = r.minutes - r.goal;
+    const cls = bal >= 0 ? 'positive' : 'negative';
+    const sign = bal >= 0 ? '+' : '';
+    return `<li class="history-item" onclick="openEdit('${r.id}')">
+      <div>
+        <div class="date">${fmtDate(r.date)}</div>
+        <div class="detail">${Math.round(r.minutes)} min · obiettivo ${Math.round(r.goal)} min</div>
+      </div>
+      <span class="balance-badge ${cls}">${sign}${Math.round(bal)} min</span>
+      <button class="delete-btn" onclick="event.stopPropagation(); deleteRecord('${r.id}')">🗑</button>
+    </li>`;
+  }).join('');
+}
+
+function deleteRecord(id) {
+  records = records.filter(r => r.id !== id);
+  saveRecords(records);
+  renderHistory();
+  updateBalance();
+}
+
+// ==================== EDIT MODAL ====================
+function openEdit(id) {
+  const r = records.find(r => r.id === id);
+  if (!r) return;
+  editingId = id;
+  document.getElementById('editDate').textContent = fmtDateFull(r.date);
+  document.getElementById('editMinutes').value = Math.round(r.minutes);
+  document.getElementById('editModal').classList.add('active');
+  setTimeout(() => document.getElementById('editMinutes').focus(), 100);
+}
+
+function closeEdit() {
+  document.getElementById('editModal').classList.remove('active');
+  editingId = null;
+}
+
+function saveEdit() {
+  const v = parseFloat(document.getElementById('editMinutes').value);
+  if (!v || v <= 0 || v > 1440) return;
+  const r = records.find(r => r.id === editingId);
+  if (!r) return;
+
+  // Remove old + insert updated at same position
+  const idx = records.indexOf(r);
+  records.splice(idx, 1);
+  records.splice(idx, 0, { ...r, minutes: v });
+  saveRecords(records);
+  closeEdit();
+  renderHistory();
+  updateBalance();
+}
+
+// ==================== SETTINGS ====================
+function saveGoal() {
+  const input = document.getElementById('goalInput');
+  const v = parseFloat(input.value);
+  if (!v || v <= 0 || v > 1440) return;
+  dailyGoal = v;
+  saveGoalVal(v);
+  // Update goal in existing records for consistent balance display
+  records.forEach(r => r.goal = v);
+  saveRecords(records);
+  updateBalance();
+  updateStats();
+  renderHistory();
+}
+
+function resetAll() {
+  if (!confirm('Sei sicuro di voler cancellare tutti i dati?')) return;
+  records = [];
+  saveRecords(records);
+  dailyGoal = 60;
+  saveGoalVal(60);
+  document.getElementById('goalInput').value = '60';
+  resetUI();
+  updateBalance();
+  updateStats();
+  renderHistory();
+}
+
+// ==================== INIT ====================
+document.getElementById('todayDate').textContent =
+  new Date().toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+document.getElementById('goalInput').value = dailyGoal;
+updateBalance();
+updateControls();
+manualInput.dispatchEvent(new Event('input'));
+
+// Close modal on escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeEdit();
+});
+</script>
+</body>
+</html>
