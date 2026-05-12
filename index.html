@@ -16,6 +16,7 @@
     --accent: #4ade80;
     --accent-red: #f87171;
     --accent-orange: #fb923c;
+    --accent-blue: #60a5fa;
     --text: #e2e8f0;
     --text-dim: #94a3b8;
     --border: #475569;
@@ -33,7 +34,6 @@
     -webkit-tap-highlight-color: transparent;
   }
 
-  /* App Container */
   .app {
     max-width: 480px;
     margin: 0 auto;
@@ -41,7 +41,6 @@
     min-height: 100vh;
   }
 
-  /* Header */
   .header {
     text-align: center;
     padding: 24px 20px 8px;
@@ -92,11 +91,9 @@
     color: var(--text);
   }
 
-  /* Panels */
   .panel { display: none; padding: 0 16px; }
   .panel.active { display: block; }
 
-  /* Cards */
   .card {
     background: var(--card);
     border-radius: var(--radius);
@@ -115,10 +112,8 @@
   .balance-card::before {
     content: '';
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
     background: radial-gradient(circle at 50% 50%, rgba(74,222,128,0.05) 0%, transparent 70%);
   }
   .balance-value {
@@ -166,18 +161,12 @@
     margin-bottom: 8px;
   }
   .today-summary .icon { font-size: 1.2rem; }
-  .today-summary .today-text {
-    font-size: 1rem;
-    font-weight: 600;
-  }
-  .today-summary .today-sub {
-    font-size: 0.8rem;
-    color: var(--text-dim);
-  }
+  .today-summary .today-text { font-size: 1rem; font-weight: 600; }
+  .today-summary .today-sub { font-size: 0.8rem; color: var(--text-dim); }
   .today-summary .today-sub.orange { color: var(--accent-orange); }
   .today-summary .today-sub.green { color: var(--accent); }
 
-  /* Manual Entry Panel */
+  /* Manual Entry */
   .manual-panel {
     background: var(--surface);
     border-radius: var(--radius);
@@ -196,33 +185,36 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 16px;
+    gap: 10px;
     margin-bottom: 12px;
   }
   .manual-btn {
-    width: 56px;
-    height: 56px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     border: none;
-    font-size: 1.6rem;
+    font-size: 1.3rem;
+    font-weight: 700;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: transform 0.15s, background 0.2s;
+    user-select: none;
   }
   .manual-btn:hover { transform: scale(1.1); }
   .manual-btn:active { transform: scale(0.95); }
-  .manual-btn.plus {
-    background: var(--accent);
-    color: #000;
-  }
-  .manual-btn.minus {
-    background: var(--accent-red);
-    color: #fff;
+  .manual-btn.plus { background: var(--accent); color: #000; }
+  .manual-btn.minus { background: var(--accent-red); color: #fff; }
+  .manual-btn.plus-sm { background: var(--accent-blue); color: #fff; }
+  .manual-btn.minus-sm { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .manual-unit {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-top: 2px;
   }
   .manual-input {
-    width: 90px;
+    width: 80px;
     padding: 10px;
     text-align: center;
     font-size: 1.3rem;
@@ -236,11 +228,6 @@
     font-family: inherit;
   }
   .manual-input:focus { border-color: var(--accent); }
-  .manual-unit {
-    font-size: 0.8rem;
-    color: var(--text-dim);
-    margin-top: 4px;
-  }
   .manual-submit {
     margin-top: 8px;
     padding: 8px 20px;
@@ -255,6 +242,13 @@
   }
   .manual-submit:hover { opacity: 0.85; }
   .manual-submit:disabled { opacity: 0.4; cursor: default; }
+
+  .max-warning {
+    color: var(--accent-red);
+    font-size: 0.75rem;
+    margin-top: 4px;
+    font-weight: 600;
+  }
 
   /* Control Buttons */
   .controls {
@@ -281,52 +275,103 @@
   .ctrl-btn.pause { background: var(--accent-orange); color: #000; }
   .ctrl-btn.stop { background: var(--accent-red); color: #fff; }
 
-  /* History List */
-  .history-list {
-    list-style: none;
-  }
-  .history-item {
+  /* ===== STORICO ===== */
+  .section-header {
     display: flex;
     align-items: center;
-    padding: 16px;
-    background: var(--card);
-    border-radius: var(--radius);
-    margin-bottom: 8px;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .section-header h3 { font-size: 1rem; }
+  .btn-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: none;
+    font-size: 1.1rem;
     cursor: pointer;
-    transition: background 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  .btn-icon:hover { filter: brightness(1.2); }
+  .btn-icon.primary { background: var(--accent); color: #000; }
+  .btn-icon.danger { background: var(--accent-red); color: #fff; }
+  .btn-icon.secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+
+  .day-group {
+    margin-bottom: 16px;
+  }
+  .day-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: var(--surface);
+    border-radius: 12px 12px 0 0;
     border: 1px solid var(--border);
-    position: relative;
+    border-bottom: none;
   }
-  .history-item:hover { background: var(--surface2); }
-  .history-item .date {
-    font-size: 0.95rem;
-    font-weight: 600;
-  }
-  .history-item .detail {
-    font-size: 0.8rem;
-    color: var(--text-dim);
-    margin-top: 2px;
-  }
-  .history-item .balance-badge {
-    margin-left: auto;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-weight: 700;
+  .day-header .day-date { font-weight: 700; font-size: 0.95rem; }
+  .day-header .day-total {
     font-size: 0.85rem;
+    font-weight: 600;
     font-variant-numeric: tabular-nums;
   }
-  .balance-badge.positive {
-    background: rgba(74,222,128,0.15);
-    color: var(--accent);
+  .day-header .day-total.positive { color: var(--accent); }
+  .day-header .day-total.negative { color: var(--accent-red); }
+  .day-header .day-actions { display: flex; gap: 6px; }
+  .day-header .delete-day-btn {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 2px 6px;
+    border-radius: 6px;
+    transition: all 0.15s;
   }
-  .balance-badge.negative {
-    background: rgba(248,113,113,0.15);
-    color: var(--accent-red);
+  .day-header .delete-day-btn:hover { color: var(--accent-red); background: rgba(248,113,113,0.15); }
+
+  .session-list { list-style: none; }
+  .session-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 14px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-top: none;
+    cursor: pointer;
+    transition: background 0.15s;
+    position: relative;
   }
-  .delete-btn {
+  .session-item:last-child { border-radius: 0 0 12px 12px; }
+  .session-item:hover { background: var(--surface2); }
+  .session-item .session-info { flex: 1; }
+  .session-item .session-time {
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .session-item .session-mins {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+  }
+  .session-item .balance-badge {
+    margin-left: auto;
+    padding: 3px 10px;
+    border-radius: 16px;
+    font-weight: 700;
+    font-size: 0.8rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .balance-badge.positive { background: rgba(74,222,128,0.15); color: var(--accent); }
+  .balance-badge.negative { background: rgba(248,113,113,0.15); color: var(--accent-red); }
+  .session-item .edit-icon {
     position: absolute;
-    right: 12px;
-    bottom: 8px;
+    right: 10px;
+    bottom: 6px;
     background: none;
     border: none;
     color: var(--text-dim);
@@ -335,10 +380,17 @@
     opacity: 0;
     transition: opacity 0.2s;
   }
-  .history-item:hover .delete-btn { opacity: 1; }
-  .delete-btn:hover { color: var(--accent-red); }
+  .session-item:hover .edit-icon { opacity: 1; }
+  .edit-icon:hover { color: var(--accent-blue); }
 
-  /* Modal */
+  .empty-state {
+    text-align: center;
+    padding: 48px 20px;
+    color: var(--text-dim);
+  }
+  .empty-state .emoji { font-size: 3rem; margin-bottom: 12px; }
+
+  /* Modals */
   .modal-overlay {
     display: none;
     position: fixed;
@@ -356,26 +408,25 @@
     border-radius: var(--radius);
     padding: 24px;
     width: 100%;
-    max-width: 360px;
+    max-width: 380px;
     border: 1px solid var(--border);
+    max-height: 90vh;
+    overflow-y: auto;
   }
-  .modal h3 {
-    font-size: 1.1rem;
-    margin-bottom: 16px;
-    text-align: center;
-  }
+  .modal h3 { font-size: 1.1rem; margin-bottom: 16px; text-align: center; }
   .modal .field {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     justify-content: center;
   }
-  .modal .field input {
-    width: 80px;
+  .modal .field label { min-width: 80px; font-size: 0.9rem; color: var(--text-dim); }
+  .modal .field input, .modal .field select {
+    width: 100px;
     padding: 8px;
     text-align: center;
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     font-weight: 600;
     font-variant-numeric: tabular-nums;
     background: var(--bg);
@@ -385,13 +436,16 @@
     outline: none;
     font-family: inherit;
   }
-  .modal .field input:focus { border-color: var(--accent); }
-  .modal .field label { color: var(--text-dim); font-size: 0.9rem; }
+  .modal .field input:focus, .modal .field select:focus { border-color: var(--accent); }
+  .modal .date-row { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
+  .modal .date-row input { width: 70px; }
+  .modal .time-row { display: flex; gap: 4px; justify-content: center; align-items: center; }
+  .modal .time-row span { color: var(--text-dim); font-weight: 600; }
   .modal-actions {
     display: flex;
     gap: 10px;
     justify-content: center;
-    margin-top: 8px;
+    margin-top: 12px;
   }
   .modal-actions button {
     padding: 8px 20px;
@@ -405,75 +459,137 @@
   .modal-actions button:hover { opacity: 0.85; }
   .modal-actions .save { background: var(--accent); color: #000; }
   .modal-actions .cancel { background: var(--surface2); color: var(--text); }
+  .modal-actions .danger { background: var(--accent-red); color: #fff; }
 
-  /* Settings */
-  .settings-field {
+  .modal-field-inline {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 16px;
+    gap: 6px;
+    margin-bottom: 14px;
+    justify-content: center;
   }
-  .settings-field label { min-width: 140px; font-size: 0.9rem; }
-  .settings-field input {
+  .modal-field-inline label { color: var(--text-dim); font-size: 0.9rem; }
+
+  /* Minutes stepper in modal */
+  .modal-stepper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 14px;
+  }
+  .modal-stepper .ms-btn {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: none;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-stepper .ms-btn.ms-plus { background: var(--accent); color: #000; }
+  .modal-stepper .ms-btn.ms-minus { background: var(--accent-red); color: #fff; }
+  .modal-stepper .ms-btn.ms-plus10 { background: var(--accent-blue); color: #fff; }
+  .modal-stepper .ms-btn.ms-minus10 { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .modal-stepper .ms-val {
+    font-size: 1.2rem;
+    font-weight: 700;
+    min-width: 50px;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Backup panel */
+  .backup-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
+  }
+  .backup-card h3 { font-size: 1rem; margin-bottom: 14px; }
+  .backup-btns { display: flex; gap: 10px; margin-bottom: 12px; }
+  .backup-btns button {
     flex: 1;
     padding: 10px;
-    background: var(--bg);
-    color: var(--text);
-    border: 2px solid var(--border);
     border-radius: 10px;
-    outline: none;
-    font-family: inherit;
-    font-size: 0.95rem;
-    font-variant-numeric: tabular-nums;
-    text-align: right;
-  }
-  .settings-field input:focus { border-color: var(--accent); }
-  .settings-field span { color: var(--text-dim); font-size: 0.85rem; }
-  .save-goal-btn {
-    padding: 8px 20px;
-    background: var(--accent);
-    color: #000;
     border: none;
-    border-radius: 8px;
     font-weight: 600;
+    font-size: 0.85rem;
     cursor: pointer;
-    font-size: 0.9rem;
     transition: opacity 0.2s;
   }
-  .save-goal-btn:hover { opacity: 0.85; }
-  .stat-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 0.9rem;
-  }
-  .stat-row:last-child { border: none; }
-  .stat-row .label { color: var(--text-dim); }
-  .stat-row .value { font-weight: 600; font-variant-numeric: tabular-nums; }
-
-  .reset-btn {
-    margin-top: 16px;
-    width: 100%;
-    padding: 10px;
-    background: transparent;
-    color: var(--accent-red);
-    border: 2px solid var(--accent-red);
-    border-radius: 10px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  .reset-btn:hover { background: rgba(248,113,113,0.15); }
-
-  /* Empty State */
-  .empty-state {
-    text-align: center;
-    padding: 48px 20px;
+  .backup-btns button:hover { opacity: 0.85; }
+  .btn-export { background: var(--accent); color: #000; }
+  .btn-import { background: var(--accent-blue); color: #fff; }
+  .btn-auto-backup { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-auto-backup.active { background: var(--accent); color: #000; }
+  .backup-info {
+    font-size: 0.8rem;
     color: var(--text-dim);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
-  .empty-state .emoji { font-size: 3rem; margin-bottom: 12px; }
+  .backup-info .info-row { display: flex; justify-content: space-between; }
+  .backup-info .info-val { font-weight: 600; color: var(--text); }
+  .auto-backup-indicator {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent-red);
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .auto-backup-indicator.on { background: var(--accent); }
+
+  /* Delete day confirmation */
+  .delete-confirm {
+    display: none;
+    padding: 6px 10px;
+    background: rgba(248,113,113,0.15);
+    border-radius: 8px;
+    margin-top: 6px;
+    text-align: center;
+    gap: 6px;
+  }
+  .delete-confirm.show { display: flex; justify-content: center; gap: 6px; }
+  .delete-confirm button {
+    padding: 4px 14px;
+    border-radius: 6px;
+    border: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .delete-confirm .confirm-del { background: var(--accent-red); color: #fff; }
+  .delete-confirm .cancel-del { background: var(--surface2); color: var(--text); }
+
+  /* Filter bar */
+  .filter-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .filter-bar button {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .filter-bar button.active {
+    background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
+  }
 
   /* Scrollbar */
   ::-webkit-scrollbar { width: 4px; }
@@ -511,16 +627,19 @@
       </div>
     </div>
 
-    <!-- Manual Entry (quando timer fermo) -->
+    <!-- Manual Entry -->
     <div class="manual-panel" id="manualPanel">
       <h3>📝 Aggiungi minuti manualmente</h3>
       <div class="manual-controls">
-        <button class="manual-btn minus" onclick="manualQuick(-15)" title="Rimuovi ultima sessione">−</button>
+        <button class="manual-btn minus" onclick="manualQuick(-1)" title="-1 min">−1</button>
+        <button class="manual-btn minus-sm" onclick="manualQuick(-10)" title="-10 min">−10</button>
         <input type="number" class="manual-input" id="manualMinutes" value="15" min="1" max="1440" placeholder="Min">
-        <button class="manual-btn plus" onclick="manualQuick(15)" title="Aggiungi 15 min">+</button>
+        <button class="manual-btn plus-sm" onclick="manualQuick(+10)" title="+10 min">+10</button>
+        <button class="manual-btn plus" onclick="manualQuick(+1)" title="+1 min">+1</button>
       </div>
-      <div class="manual-unit">minuti</div>
-      <button class="manual-submit" id="manualSubmit" onclick="submitManual()" disabled>Aggiungi 15 min</button>
+      <div class="manual-unit">minuti (max per giorno: 1440 = mezzanotte)</div>
+      <div class="max-warning" id="maxWarning" style="display:none;"></div>
+      <button class="manual-submit" id="manualSubmit" onclick="submitManual()" disabled>Aggiungi minuti</button>
     </div>
 
     <!-- Today Summary -->
@@ -542,11 +661,57 @@
 
   <!-- PANEL: Storico -->
   <div class="panel" id="panel-history">
+    <!-- Add quick entry -->
+    <div class="card">
+      <div class="section-header">
+        <h3>⏱ Aggiungi sessione</h3>
+      </div>
+      <div class="manual-controls" style="margin-bottom:8px;">
+        <input type="date" id="newEntryDate" class="manual-input" style="width:130px;">
+        <span style="color:var(--text-dim); font-weight:700;">:</span>
+        <input type="time" id="newEntryTime" class="manual-input" style="width:80px;" value="00:00">
+        <input type="number" id="newEntryMins" class="manual-input" value="15" min="1" max="1440" placeholder="Min" style="width:70px;">
+      </div>
+      <div class="manual-unit">Data, ora e minuti della sessione</div>
+      <button class="manual-submit" onclick="addManualEntry()" style="width:100%; margin-top:6px;">+ Aggiungi Sessione</button>
+    </div>
+
+    <!-- Filter bar -->
+    <div class="filter-bar">
+      <button class="active" onclick="filterHistory('all', this)">Tutto</button>
+      <button onclick="filterHistory('week', this)">Ultima sett.</button>
+      <button onclick="filterHistory('month', this)">Ultimo mese</button>
+    </div>
+
+    <!-- History list -->
     <ul class="history-list" id="historyList"></ul>
     <div class="empty-state" id="historyEmpty">
       <div class="emoji">🕐</div>
       <p>Nessuna sessione registrata</p>
-      <p style="font-size:0.8rem; margin-top:8px;">Inizia la pratica per registrare il tempo</p>
+      <p style="font-size:0.8rem; margin-top:8px;">Inizia la pratica o aggiungi una sessione manuale</p>
+    </div>
+
+    <!-- Backup & Restore inside history -->
+    <div class="backup-card" style="margin-top:20px;">
+      <h3>💾 Backup & Ripristino</h3>
+      <div class="backup-btns">
+        <button class="btn-export" onclick="exportData()">📤 Esporta</button>
+        <label class="btn-import" style="display:flex;align-items:center;justify-content:center;cursor:pointer;">
+          📥 Importa
+          <input type="file" accept=".json" onchange="importData(this.files[0])" style="display:none;">
+        </label>
+        <button class="btn-auto-backup" id="autoBackupBtn" onclick="toggleAutoBackup()">
+          <span class="auto-backup-indicator" id="autoBackupDot"></span>Auto Backup
+        </button>
+      </div>
+      <div class="backup-info" id="backupInfo">
+        <div class="info-row"><span>Ultimo backup auto:</span><span class="info-val" id="lastAutoBackup">Mai</span></div>
+        <div class="info-row"><span>Salvataggi auto:</span><span class="info-val" id="autoBackupCount">0</span></div>
+        <div class="info-row"><span>Nome file:</span><span class="info-val" id="autoBackupFileName">—</span></div>
+      </div>
+      <div style="margin-top:12px;">
+        <button class="btn-auto-backup" onclick="restoreFromAutoBackup()" style="width:100%;">⏪ Ripristina ultimo auto-backup</button>
+      </div>
     </div>
   </div>
 
@@ -585,25 +750,52 @@
 <div class="modal-overlay" id="editModal">
   <div class="modal">
     <h3>✏️ Modifica sessione</h3>
-    <div class="field">
+    <div class="modal-field-inline">
       <label>Data:</label>
-      <span id="editDate"></span>
+      <input type="date" id="editDateField">
     </div>
-    <div class="field">
-      <label>Minuti:</label>
-      <input type="number" id="editMinutes" min="1" max="1440" placeholder="Min">
+    <div class="modal-field-inline">
+      <label>Ora:</label>
+      <div class="time-row" style="display:flex;gap:4px;align-items:center;">
+        <input type="number" id="editHour" min="0" max="23" placeholder="HH" style="width:55px;">
+        <span>:</span>
+        <input type="number" id="editMinuteTime" min="0" max="59" placeholder="MM" style="width:55px;">
+      </div>
+    </div>
+    <div class="modal-stepper">
+      <button class="ms-btn ms-minus10" onclick="stepEditMinutes(-10)">−10</button>
+      <button class="ms-btn ms-minus" onclick="stepEditMinutes(-1)">−1</button>
+      <div class="ms-val" id="editMinutesDisplay">0 min</div>
+      <button class="ms-btn ms-plus" onclick="stepEditMinutes(+1)">+1</button>
+      <button class="ms-btn ms-plus10" onclick="stepEditMinutes(+10)">+10</button>
     </div>
     <div class="modal-actions">
+      <button class="danger" onclick="deleteRecord(editingId); closeEdit();">🗑 Elimina</button>
       <button class="cancel" onclick="closeEdit()">Annulla</button>
       <button class="save" onclick="saveEdit()">Salva</button>
     </div>
   </div>
 </div>
 
+<!-- Delete Day Confirmation -->
+<div class="modal-overlay" id="deleteDayModal">
+  <div class="modal" style="max-width:320px;">
+    <h3>⚠️ Elimina giornata</h3>
+    <p style="text-align:center;color:var(--text-dim);margin-bottom:16px;" id="deleteDayText"></p>
+    <div class="modal-actions">
+      <button class="cancel" onclick="closeDeleteDay()">Annulla</button>
+      <button class="danger" onclick="confirmDeleteDay()">🗑 Elimina tutto</button>
+    </div>
+  </div>
+</div>
+
 <script>
-// ==================== STORE ====================
+// ==================== STORE ====================\n
 const STORAGE_KEY = 'timetrack_records';
 const GOAL_KEY = 'timetrack_dailyGoal';
+const AUTOBACKUP_KEY = 'timetrack_autobackup';
+const AUTOBACKUP_ENABLED_KEY = 'timetrack_autobackup_enabled';
+const AUTOBACKUP_COUNT_KEY = 'timetrack_autobackup_count';
 
 function loadRecords() {
   try {
@@ -614,6 +806,7 @@ function loadRecords() {
 
 function saveRecords(records) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+  autoBackupIfNeeded();
 }
 
 function loadGoal() {
@@ -625,7 +818,126 @@ function saveGoalVal(v) {
   localStorage.setItem(GOAL_KEY, v);
 }
 
-// ==================== STATE ====================
+// ==================== AUTO BACKUP ====================\n
+function autoBackupIfNeeded() {
+  const enabled = localStorage.getItem(AUTOBACKUP_ENABLED_KEY) === 'true';
+  if (!enabled) return;
+
+  const backup = {
+    records: records,
+    dailyGoal: dailyGoal,
+    backedUpAt: new Date().toISOString()
+  };
+  localStorage.setItem(AUTOBACKUP_KEY, JSON.stringify(backup));
+
+  const count = parseInt(localStorage.getItem(AUTOBACKUP_COUNT_KEY) || '0') + 1;
+  localStorage.setItem(AUTOBACKUP_COUNT_KEY, count.toString());
+
+  updateAutoBackupUI();
+}
+
+function updateAutoBackupUI() {
+  const enabled = localStorage.getItem(AUTOBACKUP_ENABLED_KEY) === 'true';
+  const btn = document.getElementById('autoBackupBtn');
+  const dot = document.getElementById('autoBackupDot');
+  if (enabled) {
+    btn.classList.add('active');
+    dot.classList.add('on');
+  } else {
+    btn.classList.remove('active');
+    dot.classList.remove('on');
+  }
+
+  const lastBackup = localStorage.getItem(AUTOBACKUP_KEY);
+  if (lastBackup) {
+    try {
+      const data = JSON.parse(lastBackup);
+      const d = new Date(data.backedUpAt);
+      document.getElementById('lastAutoBackup').textContent = d.toLocaleString('it-IT');
+    } catch {}
+  }
+
+  document.getElementById('autoBackupCount').textContent = localStorage.getItem(AUTOBACKUP_COUNT_KEY) || '0';
+  document.getElementById('autoBackupFileName').textContent = 'autobackup-' + (localStorage.getItem(STORAGE_KEY) ? 'active' : '—');
+}
+
+function toggleAutoBackup() {
+  const enabled = localStorage.getItem(AUTOBACKUP_ENABLED_KEY) !== 'true';
+  localStorage.setItem(AUTOBACKUP_ENABLED_KEY, enabled.toString());
+  if (enabled) {
+    autoBackupIfNeeded(); // force first backup
+  }
+  updateAutoBackupUI();
+}
+
+function restoreFromAutoBackup() {
+  const backup = localStorage.getItem(AUTOBACKUP_KEY);
+  if (!backup) { alert('Nessun auto-backup trovato!'); return; }
+  try {
+    const data = JSON.parse(backup);
+    if (!data.records || !Array.isArray(data.records)) throw 'Formato non valido';
+    if (confirm(`Ripristinare ${data.records.length} sessioni dall'auto-backup? I dati attuali verranno sovrascritti.`)) {
+      records = data.records;
+      saveRecords(records);
+      if (data.dailyGoal) {
+        dailyGoal = data.dailyGoal;
+        saveGoalVal(dailyGoal);
+        document.getElementById('goalInput').value = dailyGoal;
+      }
+      renderHistory();
+      updateBalance();
+      updateStats();
+      alert('Dati ripristinati dall\'auto-backup!');
+    }
+  } catch (err) {
+    alert('Errore nel ripristino: ' + err);
+  }
+}
+
+// ==================== EXPORT / IMPORT ====================\n
+function exportData() {
+  const data = {
+    records: records,
+    dailyGoal: dailyGoal,
+    exportedAt: new Date().toISOString()
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `timetrack-backup-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importData(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data.records || !Array.isArray(data.records)) throw 'Formato non valido';
+      if (confirm(`Importare ${data.records.length} sessioni? I dati attuali verranno sovrascritti.`)) {
+        records = data.records;
+        saveRecords(records);
+        if (data.dailyGoal) {
+          dailyGoal = data.dailyGoal;
+          saveGoalVal(dailyGoal);
+          document.getElementById('goalInput').value = dailyGoal;
+        }
+        updateBalance();
+        updateStats();
+        renderHistory();
+        alert('Dati importati con successo!');
+      }
+    } catch (err) {
+      alert('Errore nell\'importazione: ' + err);
+    }
+  };
+  reader.readAsText(file);
+}
+
+// ==================== STATE ====================\n
 let records = loadRecords();
 let dailyGoal = loadGoal();
 let isRunning = false;
@@ -634,17 +946,23 @@ let pausedMs = 0;
 let timerInterval = null;
 let currentMs = 0;
 let editingId = null;
-
-// ==================== HELPERS ====================
-function fmtDate(d) {
-  return new Date(d).toLocaleDateString('it-IT', { day: 'numeric', month: 'short', year: 'numeric' });
+let deleteDayTarget = null;
+let currentFilter = 'all';\n
+// ==================== HELPERS ====================\n
+function fmtDate(ts) {
+  return new Date(ts).toLocaleDateString('it-IT', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
-function fmtDateFull(d) {
-  return new Date(d).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
+function fmtDateFull(ts) {
+  return new Date(ts).toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 }
 
-function fmtTime(ms) {
+function fmtTime(ts) {
+  const d = new Date(ts);
+  return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+}
+
+function fmtTimeMs(ms) {
   const totalSec = Math.floor(ms / 1000);
   const m = Math.floor(totalSec / 60);
   const s = totalSec % 60;
@@ -653,19 +971,19 @@ function fmtTime(ms) {
 
 function today() {
   const d = new Date();
-  d.setHours(0,0,0,0);
+  d.setHours(0, 0, 0, 0);
   return d.getTime();
 }
 
 function isToday(ts) {
   const d = new Date(ts);
-  d.setHours(0,0,0,0);
+  d.setHours(0, 0, 0, 0);
   return d.getTime() === today();
 }
 
 function startOfDay(ts) {
   const d = new Date(ts);
-  d.setHours(0,0,0,0);
+  d.setHours(0, 0, 0, 0);
   return d;
 }
 
@@ -683,51 +1001,43 @@ function getCumulativeBalance() {
   return todayTotal - dailyGoal;
 }
 
-function getRecordsByDay() {
+function getRecordsByDay(recs) {
   const map = {};
-  records.forEach(r => {
+  const source = recs || records;
+  source.forEach(r => {
     const k = dayKey(r.date);
-    if (!map[k]) map[k] = { date: startOfDay(r.date).getTime(), minutes: 0, goal: r.goal };
-    map[k].minutes += r.minutes;
+    if (!map[k]) map[k] = { date: startOfDay(r.date).getTime(), records: [], total: 0 };
+    map[k].records.push(r);
+    map[k].total += r.minutes;
   });
   return Object.values(map).sort((a, b) => b.date - a.date);
 }
 
-function updateStats() {
-  const n = records.length;
-  const total = records.reduce((s, r) => s + r.minutes, 0);
-  const avg = n > 0 ? (total / n) : 0;
-  const met = records.filter(r => r.minutes >= r.goal).length;
-  const bal = getCumulativeBalance();
-  const weekStart = Date.now() - 7 * 86400000;
-  const weekTotal = records.filter(r => r.date >= weekStart).reduce((s, r) => s + r.minutes, 0);
+function getDayGoal(d) {
+  // Use goal from records of that day, or current goal
+  const dayRecs = records.filter(r => dayKey(r.date) === d);
+  if (dayRecs.length > 0 && dayRecs[0].goal) return dayRecs[0].goal;
+  return dailyGoal;
+}
 
-  document.getElementById('statSessions').textContent = n;
-  document.getElementById('statTotal').textContent = Math.round(total) + ' min';
-  document.getElementById('statAvg').textContent = Math.round(avg) + ' min';
-  document.getElementById('statHit').textContent = met + ' / ' + n;
-  document.getElementById('statBalance').textContent = (bal >= 0 ? '+' : '') + Math.round(bal) + ' min';
-  document.getElementById('statWeek').textContent = Math.round(weekTotal) + ' min';
+// ==================== FILTER ====================\n
+function filterHistory(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-bar button').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderHistory();
+}
 
-  // Recent days
-  const rd = document.getElementById('recentDays');
-  const days = getRecordsByDay().slice(0, 20);
-  if (days.length === 0) {
-    rd.innerHTML = '<p style="color:var(--text-dim);font-size:0.85rem;">Nessuna sessione</p>';
-  } else {
-    rd.innerHTML = days.map(d => {
-      const bal = d.minutes - d.goal;
-      const cls = bal >= 0 ? 'positive' : 'negative';
-      const sign = bal >= 0 ? '+' : '';
-      return `<div class="stat-row">
-        <span class="label">${fmtDate(d.date)}</span>
-        <span class="value">${Math.round(d.minutes)} min / ${Math.round(d.goal)} min · <span style="color:${bal >= 0 ? 'var(--accent)' : 'var(--accent-red)'}">${sign}${Math.round(bal)}</span></span>
-      </div>`;
-    }).join('');
+function filterRecords() {
+  const now = Date.now();
+  switch (currentFilter) {
+    case 'week': return records.filter(r => r.date >= now - 7 * 86400000);
+    case 'month': return records.filter(r => r.date >= now - 30 * 86400000);
+    default: return records;
   }
 }
 
-// ==================== TABS ====================
+// ==================== TABS ====================\n
 function switchTab(name) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -737,11 +1047,17 @@ function switchTab(name) {
   if (name === 'settings') updateStats();
 }
 
-// ==================== TIMER ====================
+// ==================== TIMER ====================\n
 function tick() {
   if (!sessionStart) return;
   currentMs = Date.now() - sessionStart + pausedMs;
-  document.getElementById('timerDisplay').textContent = fmtTime(currentMs);
+  document.getElementById('timerDisplay').textContent = fmtTimeMs(currentMs);
+  // Check mezzanotte
+  const mins = Math.round(currentMs / 60000);
+  if (mins >= 1440) {
+    stopSession();
+    alert('Raggiunto il limite massimo di 1440 minuti (mezzanotte)!');
+  }
 }
 
 function startTimer() {
@@ -754,13 +1070,11 @@ function startTimer() {
 
 function togglePause() {
   if (isRunning) {
-    // Pause
     pausedMs = Date.now() - sessionStart;
     clearInterval(timerInterval);
     timerInterval = null;
     isRunning = false;
   } else {
-    // Resume
     sessionStart = Date.now() - pausedMs;
     timerInterval = setInterval(tick, 200);
     isRunning = true;
@@ -771,11 +1085,21 @@ function togglePause() {
 function stopSession() {
   clearInterval(timerInterval);
   timerInterval = null;
-
   if (!sessionStart) { resetUI(); return; }
 
   const elapsed = pausedMs > 0 ? pausedMs : (Date.now() - sessionStart);
-  const minutes = Math.round((elapsed / 60000) * 10) / 10;
+  let minutes = Math.round((elapsed / 60000) * 10) / 10;
+
+  const todayMins = getTodayMinutes();
+  if (todayMins + minutes > 1440) {
+    minutes = 1440 - todayMins;
+    if (minutes < 0.5) {
+      alert('Hai già raggiunto il limite di 1440 min per oggi! Sessione non salvata.');
+      resetUI();
+      return;
+    }
+    alert(`Limite mezzanotte raggiunto! Salvati solo ${minutes} min.`);
+  }
 
   if (minutes >= 0.5) {
     records.unshift({
@@ -786,7 +1110,6 @@ function stopSession() {
     });
     saveRecords(records);
   }
-
   resetUI();
 }
 
@@ -813,7 +1136,7 @@ function updateControls() {
   document.getElementById('manualPanel').style.display = isRunning ? 'none' : '';
 }
 
-// ==================== BALANCE ====================
+// ==================== BALANCE ====================\n
 function updateBalance() {
   const bal = getCumulativeBalance();
   const el = document.getElementById('balanceText');
@@ -828,7 +1151,6 @@ function updateBalance() {
     ? `Totale: ${Math.round(tot)} min · Cumulativo: ${Math.round(goalTot)} min · +${Math.round(diff)} min`
     : `Totale: ${Math.round(tot)} min · Cumulativo: ${Math.round(goalTot)} min · Debito: ${Math.round(Math.abs(diff))} min`;
 
-  // Today
   const todayMins = getTodayMinutes();
   document.getElementById('todayText').textContent = `Oggi: ${Math.round(todayMins)} min su ${Math.round(dailyGoal)} min`;
   const sub = document.getElementById('todaySub');
@@ -844,25 +1166,48 @@ function updateBalance() {
   }
 }
 
-// ==================== MANUAL ====================
+// ==================== MANUAL ====================\n
 const manualInput = document.getElementById('manualMinutes');
-manualInput.addEventListener('input', () => {
-  const v = parseFloat(manualInput.value);
+
+function updateManualBtn() {
+  const v = parseFloat(manualInput.value) || 0;
   const btn = document.getElementById('manualSubmit');
-  btn.disabled = !(v > 0 && v <= 1440);
-  btn.textContent = v > 0 ? `Aggiungi ${Math.round(v)} min` : 'Aggiungi minuti';
-});
+  const todayMins = getTodayMinutes();
+  const maxForToday = Math.max(0, 1440 - todayMins);
+  const clamped = Math.max(1, Math.min(maxForToday, v));
+  if (v !== clamped && v > 0) manualInput.value = clamped;
+  btn.disabled = !(clamped > 0 && clamped <= maxForToday);
+  btn.textContent = clamped > 0 ? `Aggiungi ${Math.round(clamped)} min` : 'Aggiungi minuti';
+
+  const warn = document.getElementById('maxWarning');
+  if (todayMins + v > 1440 && v > 0) {
+    warn.style.display = 'block';
+    warn.textContent = `⚠️ Hai già ${Math.round(todayMins)} min oggi. Max disponibili: ${Math.round(maxForToday)} min`;
+  } else {
+    warn.style.display = 'none';
+  }
+}
+
+manualInput.addEventListener('input', updateManualBtn);
 
 function manualQuick(delta) {
   const v = parseFloat(manualInput.value) || 0;
-  const nv = Math.max(1, Math.min(1440, v + delta));
+  const todayMins = getTodayMinutes();
+  const maxForToday = Math.max(0, 1440 - todayMins);
+  let nv = Math.max(1, Math.min(1440, v + delta));
+  if (nv > maxForToday) nv = maxForToday;
+  if (nv < 1) nv = 1;
   manualInput.value = nv;
   manualInput.dispatchEvent(new Event('input'));
 }
 
 function submitManual() {
-  const v = parseFloat(manualInput.value);
+  let v = parseFloat(manualInput.value);
+  const todayMins = getTodayMinutes();
+  const maxForToday = Math.max(0, 1440 - todayMins);
+  if (v > maxForToday) v = maxForToday;
   if (!v || v <= 0 || v > 1440) return;
+
   records.unshift({
     id: crypto.randomUUID(),
     date: Date.now(),
@@ -873,33 +1218,112 @@ function submitManual() {
   manualInput.value = 15;
   manualInput.dispatchEvent(new Event('input'));
   updateBalance();
+  updateStats();
 }
 
-// ==================== HISTORY ====================
+// ==================== HISTORY ====================\n
 function renderHistory() {
   const list = document.getElementById('historyList');
   const empty = document.getElementById('historyEmpty');
-  if (records.length === 0) {
+  const filtered = filterRecords();
+  const days = getRecordsByDay(filtered);
+
+  // Filter days
+  let daysToShow;
+  if (currentFilter === 'week') {
+    daysToShow = days.filter(d => d.date >= Date.now() - 7 * 86400000);
+  } else if (currentFilter === 'month') {
+    daysToShow = days.filter(d => d.date >= Date.now() - 30 * 86400000);
+  } else {
+    daysToShow = days;
+  }
+
+  if (daysToShow.length === 0) {
     list.innerHTML = '';
     empty.style.display = '';
     return;
   }
   empty.style.display = 'none';
-  list.innerHTML = records.map(r => {
-    const bal = r.minutes - r.goal;
+
+  list.innerHTML = daysToShow.map(day => {
+    const dayGoal = getDayGoal(day.date);
+    const bal = day.total - dayGoal;
     const cls = bal >= 0 ? 'positive' : 'negative';
     const sign = bal >= 0 ? '+' : '';
-    return `<li class="history-item" onclick="openEdit('${r.id}')">
-      <div>
-        <div class="date">${fmtDate(r.date)}</div>
-        <div class="detail">${Math.round(r.minutes)} min · obiettivo ${Math.round(r.goal)} min</div>
+
+    const sessionItems = day.records.map(r => {
+      const balS = r.minutes - r.goal;
+      const clsS = balS >= 0 ? 'positive' : 'negative';
+      const signS = balS >= 0 ? '+' : '';
+      return `<li class="session-item" onclick="openEdit('${r.id}')">
+        <div class="session-info">
+          <div class="session-time">${fmtTime(r.date)}</div>
+          <div class="session-mins">${Math.round(r.minutes)} min</div>
+        </div>
+        <span class="balance-badge ${clsS}">${signS}${Math.round(balS)} min</span>
+        <button class="edit-icon" onclick="event.stopPropagation(); openEdit('${r.id}')">✏️</button>
+      </li>`;
+    }).join('');
+
+    return `<div class="day-group">
+      <div class="day-header">
+        <div>
+          <div class="day-date">${fmtDateFull(day.date)}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="day-total ${bal >= 0 ? 'positive' : 'negative'}">${Math.round(day.total)} min / ${Math.round(dayGoal)} min · <span style="font-size:0.8rem;">${sign}${Math.round(bal)}</span></span>
+          <div class="day-actions">
+            <button class="delete-day-btn" onclick="openDeleteDay('${day.date}')">🗑</button>
+          </div>
+        </div>
       </div>
-      <span class="balance-badge ${cls}">${sign}${Math.round(bal)} min</span>
-      <button class="delete-btn" onclick="event.stopPropagation(); deleteRecord('${r.id}')">🗑</button>
-    </li>`;
+      <ul class="session-list">${sessionItems}</ul>
+    </div>`;
   }).join('');
 }
 
+// ==================== ADD MANUAL ENTRY ====================\n
+function addManualEntry() {
+  const dateStr = document.getElementById('newEntryDate').value;
+  const timeStr = document.getElementById('newEntryTime').value;
+  const mins = parseFloat(document.getElementById('newEntryMins').value);
+
+  if (!dateStr || !timeStr) { alert('Inserisci data e ora'); return; }
+  if (!mins || mins <= 0 || mins > 1440) { alert('Minuti non validi (1-1440)'); return; }
+
+  const [y, m, d] = dateStr.split('-').map(Number);
+  const [h, min] = timeStr.split(':').map(Number);
+  const dt = new Date(y, m - 1, d, h, min, 0);
+
+  // Check mezzanotte limit
+  const dayStart = new Date(y, m - 1, d, 0, 0, 0).getTime();
+  const existingForDay = records.filter(r => {
+    const rd = new Date(r.date);
+    rd.setHours(0, 0, 0, 0);
+    return rd.getTime() === dayStart;
+  });
+  const existingMins = existingForDay.reduce((s, r) => s + r.minutes, 0);
+
+  if (existingMins + mins > 1440) {
+    alert(`⚠️ Questa giornata ha già ${Math.round(existingMins)} min. Max consentito per giorno: 1440 min (mezzanotte).`);
+    return;
+  }
+
+  records.unshift({
+    id: crypto.randomUUID(),
+    date: dt.getTime(),
+    minutes: mins,
+    goal: dailyGoal
+  });
+  saveRecords(records);
+
+  // Reset inputs
+  document.getElementById('newEntryMins').value = 15;
+  updateBalance();
+  renderHistory();
+}
+
+// ==================== DELETE RECORD ====================\n
 function deleteRecord(id) {
   records = records.filter(r => r.id !== id);
   saveRecords(records);
@@ -907,13 +1331,43 @@ function deleteRecord(id) {
   updateBalance();
 }
 
-// ==================== EDIT MODAL ====================
+// ==================== DELETE DAY ====================\n
+function openDeleteDay(dayTs) {
+  deleteDayTarget = dayTs;
+  const d = new Date(dayTs);
+  const dateStr = d.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  document.getElementById('deleteDayText').textContent = `Eliminare tutte le sessioni del ${dateStr}?`;
+  document.getElementById('deleteDayModal').classList.add('active');
+}
+
+function closeDeleteDay() {
+  deleteDayTarget = null;
+  document.getElementById('deleteDayModal').classList.remove('active');
+}
+
+function confirmDeleteDay() {
+  if (!deleteDayTarget) return;
+  records = records.filter(r => dayKey(r.date) !== dayKey(deleteDayTarget));
+  saveRecords(records);
+  closeDeleteDay();
+  renderHistory();
+  updateBalance();
+  updateStats();
+}
+
+// ==================== EDIT MODAL ====================\n
 function openEdit(id) {
   const r = records.find(r => r.id === id);
   if (!r) return;
   editingId = id;
-  document.getElementById('editDate').textContent = fmtDateFull(r.date);
+
+  const d = new Date(r.date);
+  document.getElementById('editDateField').value = d.toISOString().slice(0, 10);
+  document.getElementById('editHour').value = String(d.getHours()).padStart(2, '0');
+  document.getElementById('editMinuteTime').value = String(d.getMinutes()).padStart(2, '0');
+  document.getElementById('editMinutesDisplay').textContent = Math.round(r.minutes) + ' min';
   document.getElementById('editMinutes').value = Math.round(r.minutes);
+
   document.getElementById('editModal').classList.add('active');
   setTimeout(() => document.getElementById('editMinutes').focus(), 100);
 }
@@ -923,37 +1377,90 @@ function closeEdit() {
   editingId = null;
 }
 
+let editMinutesValue = 0;
+function stepEditMinutes(delta) {
+  const input = document.getElementById('editMinutes');
+  const currentVal = parseFloat(input.value) || 0;
+  let newVal = Math.max(1, Math.min(1440, currentVal + delta));
+  input.value = newVal;
+  document.getElementById('editMinutesDisplay').textContent = Math.round(newVal) + ' min';
+}
+
 function saveEdit() {
   const v = parseFloat(document.getElementById('editMinutes').value);
   if (!v || v <= 0 || v > 1440) return;
   const r = records.find(r => r.id === editingId);
   if (!r) return;
 
-  // Remove old + insert updated at same position
+  // Build new date from edit fields
+  const newDateStr = document.getElementById('editDateField').value;
+  const newHour = parseInt(document.getElementById('editHour').value) || 0;
+  const newMin = parseInt(document.getElementById('editMinuteTime').value) || 0;
+
+  // Check mezzanotte
+  if (newDateStr) {
+    const [y, m, d] = newDateStr.split('-').map(Number);
+    const dayStart = new Date(y, m - 1, d, 0, 0, 0).getTime();
+    const existingForDay = records.filter(rec => {
+      const rd = new Date(rec.date);
+      rd.setHours(0, 0, 0, 0);
+      return rd.getTime() === dayStart && rec.id !== editingId;
+    });
+    const existingMins = existingForDay.reduce((s, rec) => s + rec.minutes, 0);
+    if (existingMins + v > 1440) {
+      alert(`⚠️ Limite mezzanotte: questa giornata ha già ${Math.round(existingMins)} min. Max: ${Math.round(1440 - existingMins)} min disponibili.`);
+      return;
+    }
+  }
+
   const idx = records.indexOf(r);
-  records.splice(idx, 1);
-  records.splice(idx, 0, { ...r, minutes: v });
+  const updatedDate = newDateStr
+    ? new Date(parseInt(newDateStr.slice(0, 4)), parseInt(newDateStr.slice(5, 7)) - 1, parseInt(newDateStr.slice(8, 10)), newHour, newMin, 0).getTime()
+    : r.date;
+
+  records.splice(idx, 1, { ...r, minutes: v, date: updatedDate });
   saveRecords(records);
   closeEdit();
   renderHistory();
   updateBalance();
 }
 
-// ==================== SETTINGS ====================
-function saveGoal() {
-  const input = document.getElementById('goalInput');
-  const v = parseFloat(input.value);
-  if (!v || v <= 0 || v > 1440) return;
-  dailyGoal = v;
-  saveGoalVal(v);
-  // Update goal in existing records for consistent balance display
-  records.forEach(r => r.goal = v);
-  saveRecords(records);
-  updateBalance();
-  updateStats();
-  renderHistory();
+// ==================== STATS ====================\n
+function updateStats() {
+  const n = records.length;
+  const total = records.reduce((s, r) => s + r.minutes, 0);
+  const avg = n > 0 ? (total / n) : 0;
+  const met = records.filter(r => r.minutes >= r.goal).length;
+  const bal = getCumulativeBalance();
+  const weekStart = Date.now() - 7 * 86400000;
+  const weekTotal = records.filter(r => r.date >= weekStart).reduce((s, r) => s + r.minutes, 0);
+
+  document.getElementById('statSessions').textContent = n;
+  document.getElementById('statTotal').textContent = Math.round(total) + ' min';
+  document.getElementById('statAvg').textContent = Math.round(avg) + ' min';
+  document.getElementById('statHit').textContent = met + ' / ' + n;
+  document.getElementById('statBalance').textContent = (bal >= 0 ? '+' : '') + Math.round(bal) + ' min';
+  document.getElementById('statWeek').textContent = Math.round(weekTotal) + ' min';
+
+  const rd = document.getElementById('recentDays');
+  const days = getRecordsByDay().slice(0, 20);
+  if (days.length === 0) {
+    rd.innerHTML = '<p style="color:var(--text-dim);font-size:0.85rem;">Nessuna sessione</p>';
+  } else {
+    rd.innerHTML = days.map(d => {
+      const goal = getDayGoal(d.date);
+      const bal = d.total - goal;
+      const cls = bal >= 0 ? 'positive' : 'negative';
+      const sign = bal >= 0 ? '+' : '';
+      return `<div class="stat-row">
+        <span class="label">${fmtDate(d.date)}</span>
+        <span class="value">${Math.round(d.total)} min / ${Math.round(goal)} min · <span style="color:${bal >= 0 ? 'var(--accent)' : 'var(--accent-red)'};">${sign}${Math.round(bal)}</span></span>
+      </div>`;
+    }).join('');
+  }
 }
 
+// ==================== RESET ====================\n
 function resetAll() {
   if (!confirm('Sei sicuro di voler cancellare tutti i dati?')) return;
   records = [];
@@ -962,22 +1469,43 @@ function resetAll() {
   saveGoalVal(60);
   document.getElementById('goalInput').value = '60';
   resetUI();
+  renderHistory();
+  updateStats();
+}
+
+function saveGoal() {
+  const input = document.getElementById('goalInput');
+  const v = parseFloat(input.value);
+  if (!v || v <= 0 || v > 1440) return;
+  dailyGoal = v;
+  saveGoalVal(v);
+  records.forEach(r => r.goal = v);
+  saveRecords(records);
   updateBalance();
   updateStats();
   renderHistory();
 }
 
-// ==================== INIT ====================
+// ==================== INIT ====================\n
 document.getElementById('todayDate').textContent =
   new Date().toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 document.getElementById('goalInput').value = dailyGoal;
+
+// Set default date to today
+const todayStr = new Date().toISOString().slice(0, 10);
+document.getElementById('newEntryDate').value = todayStr;
+
 updateBalance();
 updateControls();
-manualInput.dispatchEvent(new Event('input'));
+updateManualBtn();
+updateAutoBackupUI();
 
-// Close modal on escape
+// Close modals on escape
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeEdit();
+  if (e.key === 'Escape') {
+    closeEdit();
+    closeDeleteDay();
+  }
 });
 </script>
 </body>
