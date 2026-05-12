@@ -479,7 +479,8 @@
   }
   .backup-card h3 { font-size: 1rem; margin-bottom: 14px; }
   .backup-btns { display: flex; gap: 10px; margin-bottom: 12px; }
-  .backup-btns button {
+  .backup-btns button,
+  .backup-btns label.btn-import {
     flex: 1;
     padding: 10px;
     border-radius: 10px;
@@ -488,6 +489,11 @@
     font-size: 0.85rem;
     cursor: pointer;
     transition: opacity 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1.2;
   }
   .backup-btns button:hover { opacity: 0.85; }
   .btn-export { background: var(--accent); color: #000; }
@@ -821,6 +827,7 @@ function loadRecords() {
 function saveRecords(recs) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(recs));
   records = recs;
+  autoBackupIfNeeded();
 }
 
 function loadGoal() {
