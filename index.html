@@ -22,9 +22,7 @@
     --border: #475569;
     --radius: 16px;
   }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
     background: var(--bg);
@@ -33,14 +31,12 @@
     overflow-x: hidden;
     -webkit-tap-highlight-color: transparent;
   }
-
   .app {
     max-width: 480px;
     margin: 0 auto;
     padding-bottom: 80px;
     min-height: 100vh;
   }
-
   .header {
     text-align: center;
     padding: 24px 20px 8px;
@@ -55,8 +51,6 @@
     color: var(--text-dim);
     margin-top: 4px;
   }
-
-  /* Tab Navigation */
   .tabs {
     display: flex;
     background: var(--surface);
@@ -90,10 +84,8 @@
     background: var(--surface2);
     color: var(--text);
   }
-
   .panel { display: none; padding: 0 16px; }
   .panel.active { display: block; }
-
   .card {
     background: var(--card);
     border-radius: var(--radius);
@@ -101,8 +93,6 @@
     margin-bottom: 16px;
     border: 1px solid var(--border);
   }
-
-  /* Balance Card */
   .balance-card {
     text-align: center;
     margin-top: 16px;
@@ -129,8 +119,6 @@
     color: var(--text-dim);
     margin-top: 6px;
   }
-
-  /* Timer Display */
   .timer-display {
     text-align: center;
     padding: 32px 0;
@@ -149,8 +137,6 @@
   }
   .timer-status.running { color: var(--accent); }
   .timer-status.paused { color: var(--accent-orange); }
-
-  /* Today Summary */
   .today-summary {
     display: flex;
     align-items: center;
@@ -165,8 +151,6 @@
   .today-summary .today-sub { font-size: 0.8rem; color: var(--text-dim); }
   .today-summary .today-sub.orange { color: var(--accent-orange); }
   .today-summary .today-sub.green { color: var(--accent); }
-
-  /* Manual Entry */
   .manual-panel {
     background: var(--surface);
     border-radius: var(--radius);
@@ -242,15 +226,12 @@
   }
   .manual-submit:hover { opacity: 0.85; }
   .manual-submit:disabled { opacity: 0.4; cursor: default; }
-
   .max-warning {
     color: var(--accent-red);
     font-size: 0.75rem;
     margin-top: 4px;
     font-weight: 600;
   }
-
-  /* Control Buttons */
   .controls {
     display: flex;
     justify-content: center;
@@ -274,8 +255,6 @@
   .ctrl-btn.start { background: var(--accent); color: #000; }
   .ctrl-btn.pause { background: var(--accent-orange); color: #000; }
   .ctrl-btn.stop { background: var(--accent-red); color: #fff; }
-
-  /* ===== STORICO ===== */
   .section-header {
     display: flex;
     align-items: center;
@@ -299,10 +278,7 @@
   .btn-icon.primary { background: var(--accent); color: #000; }
   .btn-icon.danger { background: var(--accent-red); color: #fff; }
   .btn-icon.secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
-
-  .day-group {
-    margin-bottom: 16px;
-  }
+  .day-group { margin-bottom: 16px; }
   .day-header {
     display: flex;
     align-items: center;
@@ -333,7 +309,6 @@
     transition: all 0.15s;
   }
   .day-header .delete-day-btn:hover { color: var(--accent-red); background: rgba(248,113,113,0.15); }
-
   .session-list { list-style: none; }
   .session-item {
     display: flex;
@@ -357,6 +332,7 @@
   .session-item .session-mins {
     font-size: 0.85rem;
     color: var(--text-dim);
+    margin-top: 2px;
   }
   .session-item .balance-badge {
     margin-left: auto;
@@ -382,15 +358,12 @@
   }
   .session-item:hover .edit-icon { opacity: 1; }
   .edit-icon:hover { color: var(--accent-blue); }
-
   .empty-state {
     text-align: center;
     padding: 48px 20px;
     color: var(--text-dim);
   }
   .empty-state .emoji { font-size: 3rem; margin-bottom: 12px; }
-
-  /* Modals */
   .modal-overlay {
     display: none;
     position: fixed;
@@ -460,7 +433,6 @@
   .modal-actions .save { background: var(--accent); color: #000; }
   .modal-actions .cancel { background: var(--surface2); color: var(--text); }
   .modal-actions .danger { background: var(--accent-red); color: #fff; }
-
   .modal-field-inline {
     display: flex;
     align-items: center;
@@ -469,8 +441,6 @@
     justify-content: center;
   }
   .modal-field-inline label { color: var(--text-dim); font-size: 0.9rem; }
-
-  /* Minutes stepper in modal */
   .modal-stepper {
     display: flex;
     align-items: center;
@@ -500,8 +470,6 @@
     text-align: center;
     font-variant-numeric: tabular-nums;
   }
-
-  /* Backup panel */
   .backup-card {
     background: var(--surface);
     border-radius: var(--radius);
@@ -544,30 +512,6 @@
     vertical-align: middle;
   }
   .auto-backup-indicator.on { background: var(--accent); }
-
-  /* Delete day confirmation */
-  .delete-confirm {
-    display: none;
-    padding: 6px 10px;
-    background: rgba(248,113,113,0.15);
-    border-radius: 8px;
-    margin-top: 6px;
-    text-align: center;
-    gap: 6px;
-  }
-  .delete-confirm.show { display: flex; justify-content: center; gap: 6px; }
-  .delete-confirm button {
-    padding: 4px 14px;
-    border-radius: 6px;
-    border: none;
-    font-size: 0.8rem;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  .delete-confirm .confirm-del { background: var(--accent-red); color: #fff; }
-  .delete-confirm .cancel-del { background: var(--surface2); color: var(--text); }
-
-  /* Filter bar */
   .filter-bar {
     display: flex;
     gap: 8px;
@@ -590,23 +534,97 @@
     color: #000;
     border-color: var(--accent);
   }
-
-  /* Scrollbar */
+  .delete-confirm {
+    display: none;
+    padding: 6px 10px;
+    background: rgba(248,113,113,0.15);
+    border-radius: 8px;
+    margin-top: 6px;
+    text-align: center;
+    gap: 6px;
+  }
+  .delete-confirm.show { display: flex; justify-content: center; gap: 6px; }
+  .delete-confirm button {
+    padding: 4px 14px;
+    border-radius: 6px;
+    border: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .delete-confirm .confirm-del { background: var(--accent-red); color: #fff; }
+  .delete-confirm .cancel-del { background: var(--surface2); color: var(--text); }
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .settings-field {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .settings-field label { min-width: 140px; font-size: 0.9rem; }
+  .settings-field input {
+    flex: 1;
+    padding: 10px;
+    background: var(--bg);
+    color: var(--text);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    outline: none;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+  }
+  .settings-field input:focus { border-color: var(--accent); }
+  .settings-field span { color: var(--text-dim); font-size: 0.85rem; }
+  .save-goal-btn {
+    padding: 8px 20px;
+    background: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: opacity 0.2s;
+  }
+  .save-goal-btn:hover { opacity: 0.85; }
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+  }
+  .stat-row:last-child { border: none; }
+  .stat-row .label { color: var(--text-dim); }
+  .stat-row .value { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .reset-btn {
+    margin-top: 16px;
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    color: var(--accent-red);
+    border: 2px solid var(--accent-red);
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .reset-btn:hover { background: rgba(248,113,113,0.15); }
 </style>
 </head>
 <body>
 
 <div class="app">
-  <!-- Header -->
   <div class="header">
     <h1>⏱ TimeTrackAQ</h1>
     <div class="subtitle" id="todayDate"></div>
   </div>
 
-  <!-- Tabs -->
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('practice')">▶ Pratica</button>
     <button class="tab-btn" onclick="switchTab('history')">📋 Storico</button>
@@ -627,22 +645,20 @@
       </div>
     </div>
 
-    <!-- Manual Entry -->
     <div class="manual-panel" id="manualPanel">
       <h3>📝 Aggiungi minuti manualmente</h3>
       <div class="manual-controls">
-        <button class="manual-btn minus" onclick="manualQuick(-1)" title="-1 min">−1</button>
-        <button class="manual-btn minus-sm" onclick="manualQuick(-10)" title="-10 min">−10</button>
+        <button class="manual-btn minus-sm" onclick="manualQuick(-15)">−15</button>
+        <button class="manual-btn minus" onclick="manualQuick(-1)">−1</button>
         <input type="number" class="manual-input" id="manualMinutes" value="15" min="1" max="1440" placeholder="Min">
-        <button class="manual-btn plus-sm" onclick="manualQuick(+10)" title="+10 min">+10</button>
-        <button class="manual-btn plus" onclick="manualQuick(+1)" title="+1 min">+1</button>
+        <button class="manual-btn plus" onclick="manualQuick(+1)">+1</button>
+        <button class="manual-btn plus-sm" onclick="manualQuick(+15)">+15</button>
       </div>
       <div class="manual-unit">minuti (max per giorno: 1440 = mezzanotte)</div>
       <div class="max-warning" id="maxWarning" style="display:none;"></div>
       <button class="manual-submit" id="manualSubmit" onclick="submitManual()" disabled>Aggiungi minuti</button>
     </div>
 
-    <!-- Today Summary -->
     <div class="today-summary" id="todaySummary">
       <span class="icon">📅</span>
       <div>
@@ -651,7 +667,6 @@
       </div>
     </div>
 
-    <!-- Control Buttons -->
     <div class="controls">
       <button class="ctrl-btn start" id="btnStart" onclick="startTimer()" style="display:none;">▶</button>
       <button class="ctrl-btn pause" id="btnPause" onclick="togglePause()" style="display:none;">⏸</button>
@@ -661,7 +676,6 @@
 
   <!-- PANEL: Storico -->
   <div class="panel" id="panel-history">
-    <!-- Add quick entry -->
     <div class="card">
       <div class="section-header">
         <h3>⏱ Aggiungi sessione</h3>
@@ -676,14 +690,12 @@
       <button class="manual-submit" onclick="addManualEntry()" style="width:100%; margin-top:6px;">+ Aggiungi Sessione</button>
     </div>
 
-    <!-- Filter bar -->
     <div class="filter-bar">
       <button class="active" onclick="filterHistory('all', this)">Tutto</button>
-      <button onclick="filterHistory('week', this)">Ultima sett.</button>
-      <button onclick="filterHistory('month', this)">Ultimo mese</button>
+      <button class="filter-btn" onclick="filterHistory('week', this)">Ultima sett.</button>
+      <button class="filter-btn" onclick="filterHistory('month', this)">Ultimo mese</button>
     </div>
 
-    <!-- History list -->
     <ul class="history-list" id="historyList"></ul>
     <div class="empty-state" id="historyEmpty">
       <div class="emoji">🕐</div>
@@ -691,7 +703,6 @@
       <p style="font-size:0.8rem; margin-top:8px;">Inizia la pratica o aggiungi una sessione manuale</p>
     </div>
 
-    <!-- Backup & Restore inside history -->
     <div class="backup-card" style="margin-top:20px;">
       <h3>💾 Backup & Ripristino</h3>
       <div class="backup-btns">
@@ -700,14 +711,15 @@
           📥 Importa
           <input type="file" accept=".json" onchange="importData(this.files[0])" style="display:none;">
         </label>
-        <button class="btn-auto-backup" id="autoBackupBtn" onclick="toggleAutoBackup()">
-          <span class="auto-backup-indicator" id="autoBackupDot"></span>Auto Backup
+      </div>
+      <div style="margin-top:10px;">
+        <button class="btn-auto-backup" id="autoBackupBtn" onclick="toggleAutoBackup()" style="width:100%;">
+          <span class="auto-backup-indicator" id="autoBackupDot"></span><span id="autoBackupLabel">Auto Backup OFF</span>
         </button>
       </div>
-      <div class="backup-info" id="backupInfo">
+      <div class="backup-info" id="backupInfo" style="margin-top:10px;">
         <div class="info-row"><span>Ultimo backup auto:</span><span class="info-val" id="lastAutoBackup">Mai</span></div>
         <div class="info-row"><span>Salvataggi auto:</span><span class="info-val" id="autoBackupCount">0</span></div>
-        <div class="info-row"><span>Nome file:</span><span class="info-val" id="autoBackupFileName">—</span></div>
       </div>
       <div style="margin-top:12px;">
         <button class="btn-auto-backup" onclick="restoreFromAutoBackup()" style="width:100%;">⏪ Ripristina ultimo auto-backup</button>
@@ -769,6 +781,8 @@
       <button class="ms-btn ms-plus" onclick="stepEditMinutes(+1)">+1</button>
       <button class="ms-btn ms-plus10" onclick="stepEditMinutes(+10)">+10</button>
     </div>
+    <!-- Keep this hidden input for compatibility but use display -->
+    <input type="number" id="editMinutes" value="0" style="display:none;" min="1" max="1440">
     <div class="modal-actions">
       <button class="danger" onclick="deleteRecord(editingId); closeEdit();">🗑 Elimina</button>
       <button class="cancel" onclick="closeEdit()">Annulla</button>
@@ -790,7 +804,7 @@
 </div>
 
 <script>
-// ==================== STORE ====================\n
+// ==================== STORE ====================
 const STORAGE_KEY = 'timetrack_records';
 const GOAL_KEY = 'timetrack_dailyGoal';
 const AUTOBACKUP_KEY = 'timetrack_autobackup';
@@ -804,9 +818,9 @@ function loadRecords() {
   } catch { return []; }
 }
 
-function saveRecords(records) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
-  autoBackupIfNeeded();
+function saveRecords(recs) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(recs));
+  records = recs;
 }
 
 function loadGoal() {
@@ -818,7 +832,7 @@ function saveGoalVal(v) {
   localStorage.setItem(GOAL_KEY, v);
 }
 
-// ==================== AUTO BACKUP ====================\n
+// ==================== AUTO BACKUP ====================
 function autoBackupIfNeeded() {
   const enabled = localStorage.getItem(AUTOBACKUP_ENABLED_KEY) === 'true';
   if (!enabled) return;
@@ -840,12 +854,16 @@ function updateAutoBackupUI() {
   const enabled = localStorage.getItem(AUTOBACKUP_ENABLED_KEY) === 'true';
   const btn = document.getElementById('autoBackupBtn');
   const dot = document.getElementById('autoBackupDot');
+  const label = document.getElementById('autoBackupLabel');
+  if (!btn) return;
   if (enabled) {
     btn.classList.add('active');
-    dot.classList.add('on');
+    if (dot) dot.classList.add('on');
+    if (label) label.textContent = 'Auto Backup ON';
   } else {
     btn.classList.remove('active');
-    dot.classList.remove('on');
+    if (dot) dot.classList.remove('on');
+    if (label) label.textContent = 'Auto Backup OFF';
   }
 
   const lastBackup = localStorage.getItem(AUTOBACKUP_KEY);
@@ -858,14 +876,13 @@ function updateAutoBackupUI() {
   }
 
   document.getElementById('autoBackupCount').textContent = localStorage.getItem(AUTOBACKUP_COUNT_KEY) || '0';
-  document.getElementById('autoBackupFileName').textContent = 'autobackup-' + (localStorage.getItem(STORAGE_KEY) ? 'active' : '—');
 }
 
 function toggleAutoBackup() {
   const enabled = localStorage.getItem(AUTOBACKUP_ENABLED_KEY) !== 'true';
   localStorage.setItem(AUTOBACKUP_ENABLED_KEY, enabled.toString());
   if (enabled) {
-    autoBackupIfNeeded(); // force first backup
+    autoBackupIfNeeded();
   }
   updateAutoBackupUI();
 }
@@ -876,13 +893,14 @@ function restoreFromAutoBackup() {
   try {
     const data = JSON.parse(backup);
     if (!data.records || !Array.isArray(data.records)) throw 'Formato non valido';
-    if (confirm(`Ripristinare ${data.records.length} sessioni dall'auto-backup? I dati attuali verranno sovrascritti.`)) {
+    if (confirm('Ripristinare ' + data.records.length + ' sessioni dall\'auto-backup? I dati attuali verranno sovrascritti.')) {
       records = data.records;
-      saveRecords(records);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
       if (data.dailyGoal) {
         dailyGoal = data.dailyGoal;
         saveGoalVal(dailyGoal);
-        document.getElementById('goalInput').value = dailyGoal;
+        var gi = document.getElementById('goalInput');
+        if (gi) gi.value = dailyGoal;
       }
       renderHistory();
       updateBalance();
@@ -894,36 +912,37 @@ function restoreFromAutoBackup() {
   }
 }
 
-// ==================== EXPORT / IMPORT ====================\n
+// ==================== EXPORT / IMPORT ====================
 function exportData() {
-  const data = {
+  var data = {
     records: records,
     dailyGoal: dailyGoal,
     exportedAt: new Date().toISOString()
   };
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
+  var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
   a.href = url;
-  a.download = `timetrack-backup-${new Date().toISOString().slice(0,10)}.json`;
+  a.download = 'timetrack-backup-' + new Date().toISOString().slice(0,10) + '.json';
   a.click();
   URL.revokeObjectURL(url);
 }
 
 function importData(file) {
   if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
+  var reader = new FileReader();
+  reader.onload = function(e) {
     try {
-      const data = JSON.parse(e.target.result);
+      var data = JSON.parse(e.target.result);
       if (!data.records || !Array.isArray(data.records)) throw 'Formato non valido';
-      if (confirm(`Importare ${data.records.length} sessioni? I dati attuali verranno sovrascritti.`)) {
+      if (confirm('Importare ' + data.records.length + ' sessioni? I dati attuali verranno sovrascritti.')) {
         records = data.records;
-        saveRecords(records);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
         if (data.dailyGoal) {
           dailyGoal = data.dailyGoal;
           saveGoalVal(dailyGoal);
-          document.getElementById('goalInput').value = dailyGoal;
+          var gi = document.getElementById('goalInput');
+          if (gi) gi.value = dailyGoal;
         }
         updateBalance();
         updateStats();
@@ -937,126 +956,152 @@ function importData(file) {
   reader.readAsText(file);
 }
 
-// ==================== STATE ====================\n
-let records = loadRecords();
-let dailyGoal = loadGoal();
-let isRunning = false;
-let sessionStart = null;
-let pausedMs = 0;
-let timerInterval = null;
-let currentMs = 0;
-let editingId = null;
-let deleteDayTarget = null;
-let currentFilter = 'all';\n
-// ==================== HELPERS ====================\n
-function fmtDate(ts) {
-  return new Date(ts).toLocaleDateString('it-IT', { day: 'numeric', month: 'short', year: 'numeric' });
+// ==================== STATE ====================
+var records = loadRecords();
+var dailyGoal = loadGoal();
+var isRunning = false;
+var sessionStart = null;
+var pausedMs = 0;
+var timerInterval = null;
+var currentMs = 0;
+var editingId = null;
+var deleteDayTarget = null;
+var currentFilter = 'all';
+
+// ==================== HELPERS ====================
+function fmtDate(timestamp) {
+  return new Date(timestamp).toLocaleDateString('it-IT', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
-function fmtDateFull(ts) {
-  return new Date(ts).toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+function fmtDateFull(timestamp) {
+  return new Date(timestamp).toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 }
 
-function fmtTime(ts) {
-  const d = new Date(ts);
+function fmtTime(timestamp) {
+  var d = new Date(timestamp);
   return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
 }
 
 function fmtTimeMs(ms) {
-  const totalSec = Math.floor(ms / 1000);
-  const m = Math.floor(totalSec / 60);
-  const s = totalSec % 60;
+  var totalSec = Math.floor(ms / 1000);
+  var m = Math.floor(totalSec / 60);
+  var s = totalSec % 60;
   return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
 }
 
 function today() {
-  const d = new Date();
+  var d = new Date();
   d.setHours(0, 0, 0, 0);
   return d.getTime();
 }
 
-function isToday(ts) {
-  const d = new Date(ts);
+function isToday(timestamp) {
+  var d = new Date(timestamp);
   d.setHours(0, 0, 0, 0);
   return d.getTime() === today();
 }
 
-function startOfDay(ts) {
-  const d = new Date(ts);
+function startOfDay(timestamp) {
+  var d = new Date(timestamp);
   d.setHours(0, 0, 0, 0);
   return d;
 }
 
-function dayKey(ts) {
-  return startOfDay(ts).getTime();
+function dayKey(timestamp) {
+  return startOfDay(timestamp).getTime();
 }
 
 function getTodayMinutes() {
-  return records.filter(r => isToday(r.date)).reduce((s, r) => s + r.minutes, 0);
+  var total = 0;
+  for (var i = 0; i < records.length; i++) {
+    if (isToday(records[i].date)) total += records[i].minutes;
+  }
+  return total;
 }
 
 function getCumulativeBalance() {
-  const todayRecs = records.filter(r => isToday(r.date));
-  const todayTotal = todayRecs.reduce((s, r) => s + r.minutes, 0);
+  var todayRecs = [];
+  for (var i = 0; i < records.length; i++) {
+    if (isToday(records[i].date)) todayRecs.push(records[i]);
+  }
+  var todayTotal = 0;
+  for (var j = 0; j < todayRecs.length; j++) todayTotal += todayRecs[j].minutes;
   return todayTotal - dailyGoal;
 }
 
-function getRecordsByDay(recs) {
-  const map = {};
-  const source = recs || records;
-  source.forEach(r => {
-    const k = dayKey(r.date);
+function getRecordsByDay(sourceRecords) {
+  sourceRecords = sourceRecords || records;
+  var map = {};
+  for (var i = 0; i < sourceRecords.length; i++) {
+    var r = sourceRecords[i];
+    var k = dayKey(r.date);
     if (!map[k]) map[k] = { date: startOfDay(r.date).getTime(), records: [], total: 0 };
     map[k].records.push(r);
     map[k].total += r.minutes;
-  });
-  return Object.values(map).sort((a, b) => b.date - a.date);
+  }
+  var result = [];
+  for (var key in map) {
+    if (map.hasOwnProperty(key)) result.push(map[key]);
+  }
+  result.sort(function(a, b) { return b.date - a.date; });
+  return result;
 }
 
-function getDayGoal(d) {
-  // Use goal from records of that day, or current goal
-  const dayRecs = records.filter(r => dayKey(r.date) === d);
-  if (dayRecs.length > 0 && dayRecs[0].goal) return dayRecs[0].goal;
+function getDayGoal(dayTimestamp) {
+  for (var i = 0; i < records.length; i++) {
+    if (dayKey(records[i].date) === dayTimestamp && records[i].goal) return records[i].goal;
+  }
   return dailyGoal;
 }
 
-// ==================== FILTER ====================\n
+// ==================== FILTER ====================
 function filterHistory(filter, btn) {
   currentFilter = filter;
-  document.querySelectorAll('.filter-bar button').forEach(b => b.classList.remove('active'));
+  var buttons = document.querySelectorAll('.filter-bar button');
+  for (var i = 0; i < buttons.length; i++) buttons[i].classList.remove('active');
   if (btn) btn.classList.add('active');
   renderHistory();
 }
 
 function filterRecords() {
-  const now = Date.now();
-  switch (currentFilter) {
-    case 'week': return records.filter(r => r.date >= now - 7 * 86400000);
-    case 'month': return records.filter(r => r.date >= now - 30 * 86400000);
-    default: return records;
+  var now = Date.now();
+  if (currentFilter === 'week') {
+    return records.filter(function(r) { return r.date >= now - 7 * 86400000; });
+  } else if (currentFilter === 'month') {
+    return records.filter(function(r) { return r.date >= now - 30 * 86400000; });
   }
+  return records;
 }
 
-// ==================== TABS ====================\n
+// ==================== TABS ====================
 function switchTab(name) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('panel-' + name).classList.add('active');
-  event.target.classList.add('active');
+  var panels = document.querySelectorAll('.panel');
+  for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+  var btns = document.querySelectorAll('.tab-btn');
+  for (var j = 0; j < btns.length; j++) btns[j].classList.remove('active');
+  var panel = document.getElementById('panel-' + name);
+  if (panel) panel.classList.add('active');
+  // Highlight clicked tab button
+  var tabBtns = document.querySelectorAll('.tab-btn');
+  for (var k = 0; k < tabBtns.length; k++) {
+    if (tabBtns[k].textContent.indexOf(name === 'practice' ? 'Pratica' : name === 'history' ? 'Storico' : 'Impostazioni') !== -1) {
+      tabBtns[k].classList.add('active');
+    }
+  }
   if (name === 'history') renderHistory();
   if (name === 'settings') updateStats();
 }
 
-// ==================== TIMER ====================\n
+// ==================== TIMER ====================
 function tick() {
   if (!sessionStart) return;
   currentMs = Date.now() - sessionStart + pausedMs;
-  document.getElementById('timerDisplay').textContent = fmtTimeMs(currentMs);
-  // Check mezzanotte
-  const mins = Math.round(currentMs / 60000);
+  var display = document.getElementById('timerDisplay');
+  if (display) display.textContent = fmtTimeMs(currentMs);
+  var mins = Math.round(currentMs / 60000);
   if (mins >= 1440) {
     stopSession();
-    alert('Raggiunto il limite massimo di 1440 minuti (mezzanotte)!');
+    alert('Raggiunto il limite massimo di 1440 min');
   }
 }
 
@@ -1087,18 +1132,18 @@ function stopSession() {
   timerInterval = null;
   if (!sessionStart) { resetUI(); return; }
 
-  const elapsed = pausedMs > 0 ? pausedMs : (Date.now() - sessionStart);
-  let minutes = Math.round((elapsed / 60000) * 10) / 10;
+  var elapsed = pausedMs > 0 ? pausedMs : (Date.now() - sessionStart);
+  var minutes = Math.round((elapsed / 60000) * 10) / 10;
 
-  const todayMins = getTodayMinutes();
+  var todayMins = getTodayMinutes();
   if (todayMins + minutes > 1440) {
     minutes = 1440 - todayMins;
     if (minutes < 0.5) {
-      alert('Hai già raggiunto il limite di 1440 min per oggi! Sessione non salvata.');
+      alert('Hai raggiunto il limite di 1440 min! Sessione non salvata.');
       resetUI();
       return;
     }
-    alert(`Limite mezzanotte raggiunto! Salvati solo ${minutes} min.`);
+    alert('Limite mezzanotte! Salvati solo ' + Math.round(minutes) + ' min.');
   }
 
   if (minutes >= 0.5) {
@@ -1109,6 +1154,7 @@ function stopSession() {
       goal: dailyGoal
     });
     saveRecords(records);
+    autoBackupIfNeeded();
   }
   resetUI();
 }
@@ -1118,93 +1164,127 @@ function resetUI() {
   sessionStart = null;
   pausedMs = 0;
   currentMs = 0;
-  document.getElementById('timerDisplay').textContent = '00:00';
-  document.getElementById('timerStatus').textContent = 'Premi ▶ per iniziare';
-  document.getElementById('timerStatus').className = 'timer-status';
+  var display = document.getElementById('timerDisplay');
+  if (display) display.textContent = '00:00';
+  var status = document.getElementById('timerStatus');
+  if (status) {
+    status.textContent = 'Premi ▶ per iniziare';
+    status.className = 'timer-status';
+  }
   updateControls();
   updateBalance();
 }
 
 function updateControls() {
-  document.getElementById('btnStart').style.display = isRunning ? 'none' : '';
-  document.getElementById('btnPause').style.display = isRunning ? '' : 'none';
-  document.getElementById('btnStop').style.display = isRunning ? '' : 'none';
-  document.getElementById('timerStatus').textContent =
-    isRunning ? '▶ In esecuzione' : (sessionStart ? '⏸ In pausa' : 'Premi ▶ per iniziare');
-  document.getElementById('timerStatus').className =
-    isRunning ? 'timer-status running' : (sessionStart ? 'timer-status paused' : 'timer-status');
-  document.getElementById('manualPanel').style.display = isRunning ? 'none' : '';
+  var startBtn = document.getElementById('btnStart');
+  var pauseBtn = document.getElementById('btnPause');
+  var stopBtn = document.getElementById('btnStop');
+  var statusEl = document.getElementById('timerStatus');
+  var manualPanel = document.getElementById('manualPanel');
+
+  if (startBtn) startBtn.style.display = isRunning ? 'none' : '';
+  if (pauseBtn) pauseBtn.style.display = isRunning ? '' : 'none';
+  if (stopBtn) stopBtn.style.display = isRunning ? '' : 'none';
+  if (statusEl) {
+    statusEl.textContent = isRunning ? '▶ In esecuzione' : (sessionStart ? '⏸ In pausa' : 'Premi ▶ per iniziare');
+    statusEl.className = isRunning ? 'timer-status running' : (sessionStart ? 'timer-status paused' : 'timer-status');
+  }
+  if (manualPanel) manualPanel.style.display = isRunning ? 'none' : '';
 }
 
-// ==================== BALANCE ====================\n
+// ==================== BALANCE ====================
 function updateBalance() {
-  const bal = getCumulativeBalance();
-  const el = document.getElementById('balanceText');
-  el.textContent = (bal >= 0 ? '+' : '') + Math.round(bal) + ' min';
-  el.className = 'balance-value ' + (bal >= 0 ? 'green' : 'red');
+  var bal = getCumulativeBalance();
+  var el = document.getElementById('balanceText');
+  if (el) {
+    el.textContent = (bal >= 0 ? '+' : '') + Math.round(bal) + ' min';
+    el.className = 'balance-value ' + (bal >= 0 ? 'green' : 'red');
+  }
 
-  const tot = records.reduce((s, r) => s + r.minutes, 0);
-  const days = new Set(records.map(r => dayKey(r.date))).size;
-  const goalTot = Math.max(days, 1) * dailyGoal;
-  const diff = tot - goalTot;
-  document.getElementById('balanceDetail').textContent = diff >= 0
-    ? `Totale: ${Math.round(tot)} min · Cumulativo: ${Math.round(goalTot)} min · +${Math.round(diff)} min`
-    : `Totale: ${Math.round(tot)} min · Cumulativo: ${Math.round(goalTot)} min · Debito: ${Math.round(Math.abs(diff))} min`;
+  var tot = 0;
+  for (var i = 0; i < records.length; i++) tot += records[i].minutes;
+  var days = new Set(records.map(function(r) { return dayKey(r.date); })).size;
+  var goalTot = Math.max(days, 1) * dailyGoal;
+  var diff = tot - goalTot;
 
-  const todayMins = getTodayMinutes();
-  document.getElementById('todayText').textContent = `Oggi: ${Math.round(todayMins)} min su ${Math.round(dailyGoal)} min`;
-  const sub = document.getElementById('todaySub');
-  if (todayMins === 0) {
-    sub.textContent = '';
-    sub.className = 'today-sub';
-  } else if (todayMins < dailyGoal) {
-    sub.textContent = `Mancano ${Math.round(dailyGoal - todayMins)} min per l'obiettivo`;
-    sub.className = 'today-sub orange';
-  } else {
-    sub.textContent = '🎯 Obiettivo giornaliero raggiunto!';
-    sub.className = 'today-sub green';
+  var detail = document.getElementById('balanceDetail');
+  if (detail) {
+    detail.textContent = diff >= 0
+      ? 'Totale: ' + Math.round(tot) + ' min · Cumulativo: ' + Math.round(goalTot) + ' min · +' + Math.round(diff) + ' min'
+      : 'Totale: ' + Math.round(tot) + ' min · Cumulativo: ' + Math.round(goalTot) + ' min · Debito: ' + Math.round(Math.abs(diff)) + ' min';
+  }
+
+  var todayMins = getTodayMinutes();
+  var todayText = document.getElementById('todayText');
+  var todaySub = document.getElementById('todaySub');
+  if (todayText) todayText.textContent = 'Oggi: ' + Math.round(todayMins) + ' min su ' + Math.round(dailyGoal) + ' min';
+  if (todaySub) {
+    if (todayMins === 0) {
+      todaySub.textContent = '';
+      todaySub.className = 'today-sub';
+    } else if (todayMins < dailyGoal) {
+      todaySub.textContent = 'Mancano ' + Math.round(dailyGoal - todayMins) + ' min per l\'obiettivo';
+      todaySub.className = 'today-sub orange';
+    } else {
+      todaySub.textContent = '🎯 Obiettivo giornaliero raggiunto!';
+      todaySub.className = 'today-sub green';
+    }
   }
 }
 
-// ==================== MANUAL ====================\n
-const manualInput = document.getElementById('manualMinutes');
-
+// ==================== MANUAL ====================
 function updateManualBtn() {
-  const v = parseFloat(manualInput.value) || 0;
-  const btn = document.getElementById('manualSubmit');
-  const todayMins = getTodayMinutes();
-  const maxForToday = Math.max(0, 1440 - todayMins);
-  const clamped = Math.max(1, Math.min(maxForToday, v));
-  if (v !== clamped && v > 0) manualInput.value = clamped;
-  btn.disabled = !(clamped > 0 && clamped <= maxForToday);
-  btn.textContent = clamped > 0 ? `Aggiungi ${Math.round(clamped)} min` : 'Aggiungi minuti';
-
-  const warn = document.getElementById('maxWarning');
-  if (todayMins + v > 1440 && v > 0) {
-    warn.style.display = 'block';
-    warn.textContent = `⚠️ Hai già ${Math.round(todayMins)} min oggi. Max disponibili: ${Math.round(maxForToday)} min`;
-  } else {
-    warn.style.display = 'none';
+  var input = document.getElementById('manualMinutes');
+  if (!input) return;
+  var v = parseFloat(input.value) || 0;
+  var btn = document.getElementById('manualSubmit');
+  var todayMins = getTodayMinutes();
+  var maxForToday = Math.max(0, 1440 - todayMins);
+  var clamped = Math.max(1, Math.min(maxForToday, v));
+  if (v !== clamped && v > 0) input.value = clamped;
+  if (btn) {
+    btn.disabled = !(clamped > 0 && clamped <= maxForToday);
+    btn.textContent = clamped > 0 ? 'Aggiungi ' + Math.round(clamped) + ' min' : 'Aggiungi minuti';
+  }
+  var warn = document.getElementById('maxWarning');
+  if (warn) {
+    if (todayMins + v > 1440 && v > 0) {
+      warn.style.display = 'block';
+      warn.textContent = '⚠️ Hai già ' + Math.round(todayMins) + ' min oggi. Max disponibili: ' + Math.round(maxForToday) + ' min';
+    } else {
+      warn.style.display = 'none';
+    }
   }
 }
 
-manualInput.addEventListener('input', updateManualBtn);
+document.addEventListener('DOMContentLoaded', function() {
+  var manualInput = document.getElementById('manualMinutes');
+  if (manualInput) {
+    manualInput.addEventListener('input', updateManualBtn);
+    updateManualBtn();
+  }
+});
 
 function manualQuick(delta) {
-  const v = parseFloat(manualInput.value) || 0;
-  const todayMins = getTodayMinutes();
-  const maxForToday = Math.max(0, 1440 - todayMins);
-  let nv = Math.max(1, Math.min(1440, v + delta));
+  var input = document.getElementById('manualMinutes');
+  if (!input) return;
+  var v = parseFloat(input.value) || 0;
+  var todayMins = getTodayMinutes();
+  var maxForToday = Math.max(0, 1440 - todayMins);
+  var nv = Math.max(1, Math.min(1440, v + delta));
   if (nv > maxForToday) nv = maxForToday;
   if (nv < 1) nv = 1;
-  manualInput.value = nv;
-  manualInput.dispatchEvent(new Event('input'));
+  input.value = nv;
+  // Trigger input event manually
+  updateManualBtn();
 }
 
 function submitManual() {
-  let v = parseFloat(manualInput.value);
-  const todayMins = getTodayMinutes();
-  const maxForToday = Math.max(0, 1440 - todayMins);
+  var input = document.getElementById('manualMinutes');
+  if (!input) return;
+  var v = parseFloat(input.value);
+  var todayMins = getTodayMinutes();
+  var maxForToday = Math.max(0, 1440 - todayMins);
   if (v > maxForToday) v = maxForToday;
   if (!v || v <= 0 || v > 1440) return;
 
@@ -1214,26 +1294,29 @@ function submitManual() {
     minutes: v,
     goal: dailyGoal
   });
-  saveRecords(records);
-  manualInput.value = 15;
-  manualInput.dispatchEvent(new Event('input'));
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+  autoBackupIfNeeded();
+
+  input.value = 15;
+  updateManualBtn();
   updateBalance();
   updateStats();
 }
 
-// ==================== HISTORY ====================\n
+// ==================== HISTORY ====================
 function renderHistory() {
-  const list = document.getElementById('historyList');
-  const empty = document.getElementById('historyEmpty');
-  const filtered = filterRecords();
-  const days = getRecordsByDay(filtered);
+  var list = document.getElementById('historyList');
+  var empty = document.getElementById('historyEmpty');
+  if (!list || !empty) return;
 
-  // Filter days
-  let daysToShow;
+  var filtered = filterRecords();
+  var days = getRecordsByDay(filtered);
+
+  var daysToShow;
   if (currentFilter === 'week') {
-    daysToShow = days.filter(d => d.date >= Date.now() - 7 * 86400000);
+    daysToShow = days.filter(function(d) { return d.date >= Date.now() - 7 * 86400000; });
   } else if (currentFilter === 'month') {
-    daysToShow = days.filter(d => d.date >= Date.now() - 30 * 86400000);
+    daysToShow = days.filter(function(d) { return d.date >= Date.now() - 30 * 86400000; });
   } else {
     daysToShow = days;
   }
@@ -1245,67 +1328,73 @@ function renderHistory() {
   }
   empty.style.display = 'none';
 
-  list.innerHTML = daysToShow.map(day => {
-    const dayGoal = getDayGoal(day.date);
-    const bal = day.total - dayGoal;
-    const cls = bal >= 0 ? 'positive' : 'negative';
-    const sign = bal >= 0 ? '+' : '';
+  var html = '';
+  for (var di = 0; di < daysToShow.length; di++) {
+    var day = daysToShow[di];
+    var dayGoal = getDayGoal(day.date);
+    var bal = day.total - dayGoal;
+    var cls = bal >= 0 ? 'positive' : 'negative';
+    var sign = bal >= 0 ? '+' : '';
 
-    const sessionItems = day.records.map(r => {
-      const balS = r.minutes - r.goal;
-      const clsS = balS >= 0 ? 'positive' : 'negative';
-      const signS = balS >= 0 ? '+' : '';
-      return `<li class="session-item" onclick="openEdit('${r.id}')">
-        <div class="session-info">
-          <div class="session-time">${fmtTime(r.date)}</div>
-          <div class="session-mins">${Math.round(r.minutes)} min</div>
-        </div>
-        <span class="balance-badge ${clsS}">${signS}${Math.round(balS)} min</span>
-        <button class="edit-icon" onclick="event.stopPropagation(); openEdit('${r.id}')">✏️</button>
-      </li>`;
-    }).join('');
+    var sessionItems = '';
+    for (var si = 0; si < day.records.length; si++) {
+      var r = day.records[si];
+      var balS = r.minutes - r.goal;
+      var clsS = balS >= 0 ? 'positive' : 'negative';
+      var signS = balS >= 0 ? '+' : '';
+      sessionItems += '<li class="session-item" onclick="openEdit(\'' + r.id + '\')">' +
+        '<div class="session-info">' +
+        '<div class="session-time">' + fmtTime(r.date) + '</div>' +
+        '<div class="session-mins">' + Math.round(r.minutes) + ' min</div>' +
+        '</div>' +
+        '<span class="balance-badge ' + clsS + '">' + signS + Math.round(balS) + ' min</span>' +
+        '<button class="edit-icon" onclick="event.stopPropagation(); openEdit(\'' + r.id + '\')">✏️</button>' +
+        '</li>';
+    }
 
-    return `<div class="day-group">
-      <div class="day-header">
-        <div>
-          <div class="day-date">${fmtDateFull(day.date)}</div>
-        </div>
-        <div style="display:flex;align-items:center;gap:10px;">
-          <span class="day-total ${bal >= 0 ? 'positive' : 'negative'}">${Math.round(day.total)} min / ${Math.round(dayGoal)} min · <span style="font-size:0.8rem;">${sign}${Math.round(bal)}</span></span>
-          <div class="day-actions">
-            <button class="delete-day-btn" onclick="openDeleteDay('${day.date}')">🗑</button>
-          </div>
-        </div>
-      </div>
-      <ul class="session-list">${sessionItems}</ul>
-    </div>`;
-  }).join('');
+    html += '<div class="day-group">' +
+      '<div class="day-header">' +
+      '<div><div class="day-date">' + fmtDateFull(day.date) + '</div></div>' +
+      '<div style="display:flex;align-items:center;gap:10px;">' +
+      '<span class="day-total ' + (bal >= 0 ? 'positive' : 'negative') + '">' +
+      Math.round(day.total) + ' min / ' + Math.round(dayGoal) + ' min · <span style="font-size:0.8rem;">' + sign + Math.round(bal) + '</span></span>' +
+      '<div class="day-actions">' +
+      '<button class="delete-day-btn" onclick="openDeleteDay(' + day.date + ')">🗑</button>' +
+      '</div></div></div>' +
+      '<ul class="session-list">' + sessionItems + '</ul>' +
+      '</div>';
+  }
+  list.innerHTML = html;
 }
 
-// ==================== ADD MANUAL ENTRY ====================\n
+// ==================== ADD MANUAL ENTRY ====================
 function addManualEntry() {
-  const dateStr = document.getElementById('newEntryDate').value;
-  const timeStr = document.getElementById('newEntryTime').value;
-  const mins = parseFloat(document.getElementById('newEntryMins').value);
+  var dateStr = document.getElementById('newEntryDate').value;
+  var timeStr = document.getElementById('newEntryTime').value;
+  var mins = parseFloat(document.getElementById('newEntryMins').value);
 
   if (!dateStr || !timeStr) { alert('Inserisci data e ora'); return; }
   if (!mins || mins <= 0 || mins > 1440) { alert('Minuti non validi (1-1440)'); return; }
 
-  const [y, m, d] = dateStr.split('-').map(Number);
-  const [h, min] = timeStr.split(':').map(Number);
-  const dt = new Date(y, m - 1, d, h, min, 0);
+  var parts = dateStr.split('-');
+  var y = parseInt(parts[0]), m = parseInt(parts[1]), d = parseInt(parts[2]);
+  var timeParts = timeStr.split(':');
+  var h = parseInt(timeParts[0]), min = parseInt(timeParts[1]);
+  var dt = new Date(y, m - 1, d, h, min, 0);
 
   // Check mezzanotte limit
-  const dayStart = new Date(y, m - 1, d, 0, 0, 0).getTime();
-  const existingForDay = records.filter(r => {
-    const rd = new Date(r.date);
+  var dayStart = new Date(y, m - 1, d, 0, 0, 0).getTime();
+  var existingForDay = [];
+  for (var i = 0; i < records.length; i++) {
+    var rd = new Date(records[i].date);
     rd.setHours(0, 0, 0, 0);
-    return rd.getTime() === dayStart;
-  });
-  const existingMins = existingForDay.reduce((s, r) => s + r.minutes, 0);
+    if (rd.getTime() === dayStart) existingForDay.push(records[i]);
+  }
+  var existingMins = 0;
+  for (var ei = 0; ei < existingForDay.length; ei++) existingMins += existingForDay[ei].minutes;
 
   if (existingMins + mins > 1440) {
-    alert(`⚠️ Questa giornata ha già ${Math.round(existingMins)} min. Max consentito per giorno: 1440 min (mezzanotte).`);
+    alert('⚠️ Questa giornata ha già ' + Math.round(existingMins) + ' min. Max consentito: 1440 min.');
     return;
   }
 
@@ -1315,28 +1404,33 @@ function addManualEntry() {
     minutes: mins,
     goal: dailyGoal
   });
-  saveRecords(records);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+  autoBackupIfNeeded();
 
-  // Reset inputs
   document.getElementById('newEntryMins').value = 15;
   updateBalance();
   renderHistory();
 }
 
-// ==================== DELETE RECORD ====================\n
+// ==================== DELETE RECORD ====================
 function deleteRecord(id) {
-  records = records.filter(r => r.id !== id);
-  saveRecords(records);
+  var newRecords = [];
+  for (var i = 0; i < records.length; i++) {
+    if (records[i].id !== id) newRecords.push(records[i]);
+  }
+  records = newRecords;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+  autoBackupIfNeeded();
   renderHistory();
   updateBalance();
 }
 
-// ==================== DELETE DAY ====================\n
+// ==================== DELETE DAY ====================
 function openDeleteDay(dayTs) {
   deleteDayTarget = dayTs;
-  const d = new Date(dayTs);
-  const dateStr = d.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-  document.getElementById('deleteDayText').textContent = `Eliminare tutte le sessioni del ${dateStr}?`;
+  var d = new Date(dayTs);
+  var dateStr = d.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  document.getElementById('deleteDayText').textContent = 'Eliminare tutte le sessioni del ' + dateStr + '?';
   document.getElementById('deleteDayModal').classList.add('active');
 }
 
@@ -1347,29 +1441,38 @@ function closeDeleteDay() {
 
 function confirmDeleteDay() {
   if (!deleteDayTarget) return;
-  records = records.filter(r => dayKey(r.date) !== dayKey(deleteDayTarget));
-  saveRecords(records);
+  var dk = dayKey(deleteDayTarget);
+  var newRecords = [];
+  for (var i = 0; i < records.length; i++) {
+    if (dayKey(records[i].date) !== dk) newRecords.push(records[i]);
+  }
+  records = newRecords;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+  autoBackupIfNeeded();
   closeDeleteDay();
   renderHistory();
   updateBalance();
   updateStats();
 }
 
-// ==================== EDIT MODAL ====================\n
+// ==================== EDIT MODAL ====================
 function openEdit(id) {
-  const r = records.find(r => r.id === id);
+  var r = null;
+  for (var i = 0; i < records.length; i++) {
+    if (records[i].id === id) { r = records[i]; break; }
+  }
   if (!r) return;
   editingId = id;
 
-  const d = new Date(r.date);
+  var d = new Date(r.date);
   document.getElementById('editDateField').value = d.toISOString().slice(0, 10);
   document.getElementById('editHour').value = String(d.getHours()).padStart(2, '0');
   document.getElementById('editMinuteTime').value = String(d.getMinutes()).padStart(2, '0');
-  document.getElementById('editMinutesDisplay').textContent = Math.round(r.minutes) + ' min';
   document.getElementById('editMinutes').value = Math.round(r.minutes);
+  document.getElementById('editMinutesDisplay').textContent = Math.round(r.minutes) + ' min';
 
   document.getElementById('editModal').classList.add('active');
-  setTimeout(() => document.getElementById('editMinutes').focus(), 100);
+  setTimeout(function() { document.getElementById('editMinutes').focus(); }, 100);
 }
 
 function closeEdit() {
@@ -1377,63 +1480,83 @@ function closeEdit() {
   editingId = null;
 }
 
-let editMinutesValue = 0;
 function stepEditMinutes(delta) {
-  const input = document.getElementById('editMinutes');
-  const currentVal = parseFloat(input.value) || 0;
-  let newVal = Math.max(1, Math.min(1440, currentVal + delta));
+  var input = document.getElementById('editMinutes');
+  if (!input) return;
+  var currentVal = parseFloat(input.value) || 0;
+  var newVal = Math.max(1, Math.min(1440, currentVal + delta));
   input.value = newVal;
   document.getElementById('editMinutesDisplay').textContent = Math.round(newVal) + ' min';
 }
 
 function saveEdit() {
-  const v = parseFloat(document.getElementById('editMinutes').value);
+  var v = parseFloat(document.getElementById('editMinutes').value);
   if (!v || v <= 0 || v > 1440) return;
-  const r = records.find(r => r.id === editingId);
-  if (!r) return;
 
-  // Build new date from edit fields
-  const newDateStr = document.getElementById('editDateField').value;
-  const newHour = parseInt(document.getElementById('editHour').value) || 0;
-  const newMin = parseInt(document.getElementById('editMinuteTime').value) || 0;
+  var r = null;
+  var rIdx = -1;
+  for (var i = 0; i < records.length; i++) {
+    if (records[i].id === editingId) { r = records[i]; rIdx = i; break; }
+  }
+  if (!r || rIdx === -1) return;
+
+  var newDateStr = document.getElementById('editDateField').value;
+  var newHour = parseInt(document.getElementById('editHour').value) || 0;
+  var newMin = parseInt(document.getElementById('editMinuteTime').value) || 0;
 
   // Check mezzanotte
   if (newDateStr) {
-    const [y, m, d] = newDateStr.split('-').map(Number);
-    const dayStart = new Date(y, m - 1, d, 0, 0, 0).getTime();
-    const existingForDay = records.filter(rec => {
-      const rd = new Date(rec.date);
-      rd.setHours(0, 0, 0, 0);
-      return rd.getTime() === dayStart && rec.id !== editingId;
-    });
-    const existingMins = existingForDay.reduce((s, rec) => s + rec.minutes, 0);
+    var parts = newDateStr.split('-');
+    var y = parseInt(parts[0]), m = parseInt(parts[1]), d = parseInt(parts[2]);
+    var dayStart = new Date(y, m - 1, d, 0, 0, 0).getTime();
+    var existingForDay = [];
+    for (var i = 0; i < records.length; i++) {
+      if (records[i].id !== editingId) {
+        var rd = new Date(records[i].date);
+        rd.setHours(0, 0, 0, 0);
+        if (rd.getTime() === dayStart) existingForDay.push(records[i]);
+      }
+    }
+    var existingMins = 0;
+    for (var ei = 0; ei < existingForDay.length; ei++) existingMins += existingForDay[ei].minutes;
     if (existingMins + v > 1440) {
-      alert(`⚠️ Limite mezzanotte: questa giornata ha già ${Math.round(existingMins)} min. Max: ${Math.round(1440 - existingMins)} min disponibili.`);
+      alert('⚠️ Limite mezzanotte: già ' + Math.round(existingMins) + ' min. Max: ' + Math.round(1440 - existingMins) + ' min.');
       return;
     }
   }
 
-  const idx = records.indexOf(r);
-  const updatedDate = newDateStr
-    ? new Date(parseInt(newDateStr.slice(0, 4)), parseInt(newDateStr.slice(5, 7)) - 1, parseInt(newDateStr.slice(8, 10)), newHour, newMin, 0).getTime()
-    : r.date;
+  var updatedDate;
+  if (newDateStr) {
+    var parts = newDateStr.split('-');
+    if (parts.length === 3) {
+      updatedDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]), newHour, newMin, 0).getTime();
+    } else {
+      updatedDate = r.date;
+    }
+  } else {
+    updatedDate = r.date;
+  }
 
-  records.splice(idx, 1, { ...r, minutes: v, date: updatedDate });
-  saveRecords(records);
+  records.splice(rIdx, 1, { id: r.id, date: updatedDate, minutes: v, goal: r.goal });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+  autoBackupIfNeeded();
   closeEdit();
   renderHistory();
   updateBalance();
 }
 
-// ==================== STATS ====================\n
+// ==================== STATS ====================
 function updateStats() {
-  const n = records.length;
-  const total = records.reduce((s, r) => s + r.minutes, 0);
-  const avg = n > 0 ? (total / n) : 0;
-  const met = records.filter(r => r.minutes >= r.goal).length;
-  const bal = getCumulativeBalance();
-  const weekStart = Date.now() - 7 * 86400000;
-  const weekTotal = records.filter(r => r.date >= weekStart).reduce((s, r) => s + r.minutes, 0);
+  var n = records.length;
+  var total = 0;
+  for (var i = 0; i < records.length; i++) total += records[i].minutes;
+  var avg = n > 0 ? (total / n) : 0;
+  var met = 0;
+  for (var mi = 0; mi < records.length; mi++) if (records[mi].minutes >= records[mi].goal) met++;
+  var bal = getCumulativeBalance();
+  var weekStart = Date.now() - 7 * 86400000;
+  var weekTotal = 0;
+  for (var wi = 0; wi < records.length; wi++) if (records[wi].date >= weekStart) weekTotal += records[wi].minutes;
 
   document.getElementById('statSessions').textContent = n;
   document.getElementById('statTotal').textContent = Math.round(total) + ' min';
@@ -1442,71 +1565,77 @@ function updateStats() {
   document.getElementById('statBalance').textContent = (bal >= 0 ? '+' : '') + Math.round(bal) + ' min';
   document.getElementById('statWeek').textContent = Math.round(weekTotal) + ' min';
 
-  const rd = document.getElementById('recentDays');
-  const days = getRecordsByDay().slice(0, 20);
+  var rd = document.getElementById('recentDays');
+  var days = getRecordsByDay();
+  days = days.slice(0, 20);
   if (days.length === 0) {
     rd.innerHTML = '<p style="color:var(--text-dim);font-size:0.85rem;">Nessuna sessione</p>';
   } else {
-    rd.innerHTML = days.map(d => {
-      const goal = getDayGoal(d.date);
-      const bal = d.total - goal;
-      const cls = bal >= 0 ? 'positive' : 'negative';
-      const sign = bal >= 0 ? '+' : '';
-      return `<div class="stat-row">
-        <span class="label">${fmtDate(d.date)}</span>
-        <span class="value">${Math.round(d.total)} min / ${Math.round(goal)} min · <span style="color:${bal >= 0 ? 'var(--accent)' : 'var(--accent-red)'};">${sign}${Math.round(bal)}</span></span>
-      </div>`;
-    }).join('');
+    var html = '';
+    for (var di = 0; di < days.length; di++) {
+      var goal = getDayGoal(days[di].date);
+      var bal2 = days[di].total - goal;
+      var cls2 = bal2 >= 0 ? 'positive' : 'negative';
+      var sign2 = bal2 >= 0 ? '+' : '';
+      html += '<div class="stat-row"><span class="label">' + fmtDate(days[di].date) + '</span>' +
+        '<span class="value">' + Math.round(days[di].total) + ' min / ' + Math.round(goal) + ' min · <span style="color:' +
+        (bal2 >= 0 ? 'var(--accent)' : 'var(--accent-red)') + ';">' + sign2 + Math.round(bal2) + '</span></span></div>';
+    }
+    rd.innerHTML = html;
   }
 }
 
-// ==================== RESET ====================\n
+// ==================== RESET ====================
 function resetAll() {
   if (!confirm('Sei sicuro di voler cancellare tutti i dati?')) return;
   records = [];
-  saveRecords(records);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
   dailyGoal = 60;
   saveGoalVal(60);
-  document.getElementById('goalInput').value = '60';
+  var gi = document.getElementById('goalInput');
+  if (gi) gi.value = '60';
   resetUI();
   renderHistory();
   updateStats();
 }
 
 function saveGoal() {
-  const input = document.getElementById('goalInput');
-  const v = parseFloat(input.value);
+  var input = document.getElementById('goalInput');
+  if (!input) return;
+  var v = parseFloat(input.value);
   if (!v || v <= 0 || v > 1440) return;
   dailyGoal = v;
   saveGoalVal(v);
-  records.forEach(r => r.goal = v);
-  saveRecords(records);
+  for (var i = 0; i < records.length; i++) records[i].goal = v;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+  autoBackupIfNeeded();
   updateBalance();
   updateStats();
   renderHistory();
 }
 
-// ==================== INIT ====================\n
-document.getElementById('todayDate').textContent =
-  new Date().toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-document.getElementById('goalInput').value = dailyGoal;
+// ==================== INIT ====================
+(function() {
+  document.getElementById('todayDate').textContent =
+    new Date().toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  var gi = document.getElementById('goalInput');
+  if (gi) gi.value = dailyGoal;
 
-// Set default date to today
-const todayStr = new Date().toISOString().slice(0, 10);
-document.getElementById('newEntryDate').value = todayStr;
+  var todayStr = new Date().toISOString().slice(0, 10);
+  var ned = document.getElementById('newEntryDate');
+  if (ned) ned.value = todayStr;
 
-updateBalance();
-updateControls();
-updateManualBtn();
-updateAutoBackupUI();
+  updateBalance();
+  updateControls();
+  updateAutoBackupUI();
 
-// Close modals on escape
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    closeEdit();
-    closeDeleteDay();
-  }
-});
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeEdit();
+      closeDeleteDay();
+    }
+  });
+})();
 </script>
 </body>
 </html>
